@@ -1,7 +1,7 @@
 import React from "react";
 
-const SectionFQA = () => {
-  return <div></div>;
+const SectionFAQ = () => {
+  return <section id="faq"></section>;
 };
 
-export default SectionFQA;
+export default SectionFAQ;

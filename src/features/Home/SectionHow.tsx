@@ -1,7 +1,7 @@
 import React from "react";
 
 const SectionHow = () => {
-  return <div></div>;
+  return <section id="how"></section>;
 };
 
 export default SectionHow;

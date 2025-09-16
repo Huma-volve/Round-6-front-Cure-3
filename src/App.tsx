@@ -31,7 +31,9 @@ import Layout from "./Layout/Layout/Layout";
 
 const router = createBrowserRouter([
   {
+    path: "/",
     element: <Layout />,
+    errorElement: <NotFound />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/signin", element: <SignIn /> },

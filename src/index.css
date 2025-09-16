@@ -1,10 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
-
-body{
-  font-family: 'Montserrat', sans-serif;
+body {
+  font-family: "Montserrat", sans-serif;
 }
 
 /* @custom-variant dark (&:is(.dark *));
@@ -107,9 +105,21 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+}*/
 
 @theme inline {
+  --color-Background-Primary-Defult: #145db8;
+  --color-Background-Secondary-Defult: #05162c;
+  --color-Background-Primary-Lighter: #6292cf;
+  --color-Background-Primary-Lightest: #e8eff8;
+  --color-Background-Neutral-Darker: #6d7379;
+  --color-Background-Neutral-Lightest: #f5f6f7;
+  --color-Text-Primary-Defult: #145db8;
+  --color-Text-Secondary-Defult: #05162c;
+  --color-Text-Neutral-Darker: #6d7379;
+  --color-Text-Semantic-Error-Defult: #fc4b4e;
+  --color-Border-Primary-Defult: #145db8;
+  --color-Icon-Primary-Defult: #145db8;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -146,7 +156,7 @@ button:focus-visible {
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
-
+/*
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
