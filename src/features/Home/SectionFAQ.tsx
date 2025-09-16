@@ -11,7 +11,7 @@ const SectionFAQ = () => {
   return (
     <section id="faq">
       <Tag text="Frequently Asked Questions" />
-      <h2 className="text-2xl md:text-[40px] text-center mt-4 mb-12">
+      <h2 className="text-3xl md:text-[40px] text-center mt-4 mb-12">
         Got Questions ? We’ve got Answers!
       </h2>
       <Accordion
