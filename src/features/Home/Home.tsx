@@ -1,7 +1,25 @@
+import {
+  SectionApp,
+  SectionFAQ,
+  SectionHero,
+  SectionHow,
+  SectionMap,
+  SectionReviews,
+  SectionTopDoctors,
+} from "./";
+
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <>
+      <SectionHero />
+      <SectionHow />
+      <SectionMap />
+      <SectionTopDoctors />
+      <SectionReviews />
+      <SectionFAQ />
+      <SectionApp />
+    </>
+  );
+};
 
-export default Home
+export default Home;

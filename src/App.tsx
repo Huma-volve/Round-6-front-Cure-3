@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./features/Home/Home";
+import { Home } from "./features/Home";
 import PrivacyPolicy from "./features/PrivacyPolicy/PrivacyPolicy";
 import NotFound from "./Layout/Common/NotFound";
 import Booking from "./features/Booking/Booking";
