@@ -1,5 +1,5 @@
 import phoneIcon from "@/assets/icons/phone.svg";
-import emailIcon from "@/assets/icons/email.svg";
+import emailIcon from "@/assets/icons/Email.svg";
 import addressIcon from "@/assets/icons/address.svg";
 import logo from "@/assets/icons/logo-white.svg";
 import facebookIcon from "@/assets/icons/facebook.svg";
