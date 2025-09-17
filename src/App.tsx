@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./features/Home";
 import PrivacyPolicy from "./features/PrivacyPolicy/PrivacyPolicy";
-import NotFound from "./Layout/Common/NotFound";
 import Booking from "./features/Booking/Booking";
 import ConfirmAppointment from "./features/ConfirmAppointment/ConfirmAppointment";
 import DoctorDetails from "./features/DoctorDetails/DoctorDetails";
@@ -28,6 +27,10 @@ import TheMap from "./features/TheMap/TheMap";
 import VisaVersion from "./features/VisaVersion/VisaVersion";
 // import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import NotFound from "./Layout/Common/NotFound";
+
+
 
 const router = createBrowserRouter([
   {
@@ -50,7 +53,7 @@ const router = createBrowserRouter([
     // ),
     children: [
       { path: "/privacyPolicy", element: <PrivacyPolicy /> },
-      { path: "/booking", element: <Booking /> },
+      { path: "/bookings", element: <Booking /> },
       { path: "/confirmAppointment", element: <ConfirmAppointment /> },
       { path: "/doctorDetails/:id", element: <DoctorDetails /> },
       { path: "/doctorsNearYou", element: <DoctorsNearYou /> },
@@ -75,8 +78,14 @@ const router = createBrowserRouter([
   { path: "*", element: <NotFound /> },
 ]);
 
+const clint = new QueryClient();
+
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={clint}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
 export default App;
