@@ -4,6 +4,8 @@ import month from "@/assets/images/Month.svg";
 import calender from "@/assets/images/calender.svg";
 import how from "@/assets/images/how.svg";
 
+// TODO add the mouse in the middle box, and implement the hovering effect in the first box
+
 const SectionHow = () => {
   return (
     <section id="how">
