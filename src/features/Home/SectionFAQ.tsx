@@ -10,7 +10,9 @@ import {
 const SectionFAQ = () => {
   return (
     <section id="faq">
-      <Tag>Frequently Asked Questions</Tag>
+      <Tag>
+        <p>Frequently Asked Questions</p>
+      </Tag>
       <h2 className="text-3xl md:text-[40px] text-center mt-4 mb-12">
         Got Questions ? We’ve got Answers!
       </h2>

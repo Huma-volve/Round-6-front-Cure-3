@@ -2,159 +2,43 @@ import { DoctorCard, SkeletonLoadingCard } from "@/components/shared";
 import { Button } from "@/components/ui/button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { useState } from "react";
-
-const dataArr = [
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-  {
-    doctor_profile_id: 1,
-    about: "Magister in eyes surgery with 20 years of experience",
-    experience_years: 20,
-    price_per_hour: "60.00",
-    user_id: 1,
-    name: "Ahmed Mohamed",
-    email: "ahmed@example.com",
-    phone: "0501234567",
-    specialty_id: 1,
-    specialty_name_en: "Dentist",
-    specialty_name_ar: "طبيب أسنان",
-    specialty_description: "Dental and oral care specialist",
-    hospital_id: 1,
-    hospital_name: "57375",
-    hospital_start_time: "19:44:14",
-    hospital_end_time: "19:44:14",
-    availability_id: 1,
-    day: "sunday",
-    start_time: "08:00:00",
-    end_time: "14:00:00",
-    average_rating: "3.9231",
-    reviews_count: 13,
-  },
-];
+import { useEffect, useState } from "react";
 
 const SectionTopDoctors = () => {
+  const [doctors, setDoctors] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          "http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
+          {
+            headers: {
+              Authorization:
+                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch doctors");
+        }
+        const data = await response.json();
+        setDoctors(data.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+        setLoading(true);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
+
   return (
-    <section className="[clip-path:inset(0px_-60%_0px_0px)]">
-      <div className="flex justify-between items-center mb-12">
+    <section className="[clip-path:inset(0px_-60%_-5px_-5px)]">
+      <div className="flex justify-between items-center mb-12 gap-4 flex-col sm:flex-row">
         <div>
           <h2 className="text-3xl md:text-[40px] mt-4 mb-4">
             Top-Rated Doctors Chosen by Patients
@@ -171,14 +55,20 @@ const SectionTopDoctors = () => {
 
       <Swiper
         spaceBetween={24}
-        slidesPerView={3} // default for small screens
+        slidesPerView="auto" // default for small screens
         className="!overflow-visible"
       >
-        {dataArr.slice(0, 4).map((data) => (
-          <SwiperSlide>
-            <DoctorCard doctor={data} />
-          </SwiperSlide>
-        ))}
+        {loading
+          ? Array.from({ length: 4 }).map((_, idx) => (
+              <SwiperSlide key={idx} className="!w-[350px]">
+                <SkeletonLoadingCard />
+              </SwiperSlide>
+            ))
+          : doctors.slice(0, 4).map((doctor, idx) => (
+              <SwiperSlide key={idx} className="!w-[350px]">
+                <DoctorCard doctor={doctor} />
+              </SwiperSlide>
+            ))}
       </Swiper>
     </section>
   );

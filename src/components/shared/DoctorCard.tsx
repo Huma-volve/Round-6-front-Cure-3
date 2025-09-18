@@ -23,7 +23,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   }
 
   return (
-    <article className="flex flex-col shrink-0 p-4 w-fit shadow-[0_0_12px_rgba(0,0,0,0.1)] rounded-[10px]">
+    <article className="flex flex-col shrink-0 p-4 w-[352px] shadow-[0_0_12px_rgba(0,0,0,0.1)] rounded-[10px]">
       <div className="flex gap-[10px] items-center mb-2 border-b-[1px] border-Background-Neutral-Lightest">
         <img
           src={doctorImg}

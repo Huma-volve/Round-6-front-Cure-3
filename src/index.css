@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+html {
+  overflow-x: hidden;
+}
 body {
   font-family: "Montserrat", sans-serif;
   overflow-x: hidden;
