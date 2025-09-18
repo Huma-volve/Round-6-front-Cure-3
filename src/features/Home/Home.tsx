@@ -14,7 +14,7 @@ const Home = () => {
       <SectionHero />
       <SectionHow />
       <SectionMap />
-      <SectionTopDoctors />
+      {/* <SectionTopDoctors /> */}
       <SectionReviews />
       <SectionFAQ />
       <SectionApp />
