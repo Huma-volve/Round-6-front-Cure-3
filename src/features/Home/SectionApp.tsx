@@ -1,4 +1,3 @@
-import React from "react";
 import phoneImg from "@/assets/images/iPhones.png";
 import googlePlayIcon from "@/assets/icons/google-play.svg";
 import appleIcon from "@/assets/icons/apple.svg";

@@ -1,7 +1,5 @@
-import React from "react";
 import map from "@/assets/images/map.png";
 import { Button } from "@/components/ui/button";
-import searchIcon from "@/assets/icons/search.svg";
 
 const SectionMap = () => {
   return (
