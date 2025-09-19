@@ -7,7 +7,7 @@ import DoctorDetails from "./features/DoctorDetails/DoctorDetails";
 import DoctorsNearYou from "./features/DoctorsNearYou/DoctorsNearYou";
 import EmptyCards from "./features/EmptyCards/EmptyCards";
 import FAQs from "./features/FAQs/FAQs";
-import Favorite from "./features/Favorite/Favorite";
+import Favorites from "./features/Favorite/Favorites";
 import LoadingLocation from "./features/LoadingLocation/LoadingLocation";
 import Notification from "./features/Notification/Notification";
 import Orthopedic from "./features/Orthopedic/Orthopedic";
@@ -30,8 +30,6 @@ import Layout from "./Layout/Layout/Layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NotFound from "./Layout/Common/NotFound";
 
-
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +37,7 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/favorites", element: <Favorites /> },
       { path: "/signin", element: <SignIn /> },
       { path: "/signinEmail", element: <SignInWithEmail /> },
       { path: "/signinNumber", element: <SignInWithNumber /> },
@@ -59,7 +58,7 @@ const router = createBrowserRouter([
       { path: "/doctorsNearYou", element: <DoctorsNearYou /> },
       { path: "/emptyCards", element: <EmptyCards /> },
       { path: "/faqs", element: <FAQs /> },
-      { path: "/favorites", element: <Favorite /> },
+
       { path: "/loadingLocation", element: <LoadingLocation /> },
       { path: "/notifications", element: <Notification /> },
       { path: "/orthopedic", element: <Orthopedic /> },

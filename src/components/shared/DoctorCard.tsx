@@ -23,7 +23,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   }
 
   return (
-    <article className="flex flex-col shrink-0 p-4 min-w-[360px] shadow-[0_0_12px_rgba(0,0,0,0.1)] rounded-[10px]">
+    <article className="flex flex-col shrink-0 p-4 sm:w-[360px] w-[310px] shadow-[0_0_12px_rgba(0,0,0,0.1)] rounded-[10px]">
       <div className="flex gap-[10px] items-center mb-2 border-b-[1px] border-Background-Neutral-Lightest">
         <img
           src={doctorImg}
@@ -36,13 +36,18 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
             {doctor.specialty_name_en} | {doctor.hospital_name}
           </p>
 
-          <div className="flex">
-            <img src={star} alt="a star" className="mr-1" />{" "}
-            <p className="mr-4">{doctor.average_rating.slice(0, 3)}</p>
-            <img className="mr-2" src={clock} alt="a clock" />{" "}
-            <p>
-              {formateTime(doctor.start_time)} - {formateTime(doctor.end_time)}
-            </p>
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+            <div className="flex items-center">
+              <img src={star} alt="a star" className="mr-1" />{" "}
+              <p className="mr-4">{doctor.average_rating.slice(0, 3)}</p>
+            </div>
+            <div className="flex items-center">
+              <img className="mr-2" src={clock} alt="a clock" />{" "}
+              <p>
+                {formateTime(doctor.start_time)} -{" "}
+                {formateTime(doctor.end_time)}
+              </p>
+            </div>
           </div>
         </div>
       </div>
