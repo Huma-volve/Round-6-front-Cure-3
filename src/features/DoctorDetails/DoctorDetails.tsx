@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { FaAngleLeft, FaRegHeart, FaHeart, FaUserGroup, FaStar, FaCommentDots } from "react-icons/fa6";
+import { FaUserGroup, FaStar, FaCommentDots } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import profile from "@/assets/images/Ellipse.jpg";
 import { PiMedalFill } from "react-icons/pi";
@@ -10,6 +9,11 @@ import { getDoctorDetails } from "../../api/DoctorDetails/DoctorDetails";
 import type { DoctorDetailsResponse } from "../../types/DoctorDetails/DoctorDetails";
 import Loading from "@/Layout/Common/Loading";
 import { NavLink } from "react-router-dom";
+import Header from "@/lib/Header/Header";
+import { getReview } from "../../api/getreview/getreview";
+import type { ReviewResponse } from "../../types/Review/Review";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const RatingStars = ({ rating }: { rating: number }) => {
   return (
@@ -24,14 +28,19 @@ const RatingStars = ({ rating }: { rating: number }) => {
     </div>
   );
 };
+dayjs.extend(relativeTime);
 
 const DoctorDetails = () => {
   const navigator = useNavigate();
-  const [favorite, setFavorite] = useState(false);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["doctorDetails"],
     queryFn: () => getDoctorDetails() as Promise<DoctorDetailsResponse>,
+    refetchOnWindowFocus: false,
+  });
+  const { data: reviews } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => getReview() as Promise<ReviewResponse>,
     refetchOnWindowFocus: false,
   });
 
@@ -40,26 +49,7 @@ const DoctorDetails = () => {
 
   return (
     <>
-      <header className="flex items-center justify-between px-4 mt-3 md:mt-6 md:px-10">
-        <FaAngleLeft
-          size={25}
-          onClick={() => navigator("/")}
-          className="cursor-pointer hover:scale-110 transition-transform duration-200"
-        />
-        <h1 className="text-lg md:text-2xl font-semibold hover:text-Background-Primary-Defult transition-colors duration-200">
-          Doctor Details
-        </h1>
-        <span
-          onClick={() => setFavorite(!favorite)}
-          className="w-10 h-10 rounded-full border border-Background-Neutral-Lightest flex items-center justify-center cursor-pointer hover:bg-Background-Neutral-Lightest/20 transition-colors duration-200"
-        >
-          {favorite ? (
-            <FaHeart size={25} className="text-red-500 hover:scale-110 transition-transform duration-200" />
-          ) : (
-            <FaRegHeart size={25} className="text-gray-500 hover:text-red-500 transition-colors duration-200" />
-          )}
-        </span>
-      </header>
+      <Header title="Doctor Details" showFavorite onBack={() => navigator("/")}/>
 
       <main className="w-[90%] mx-auto mt-5 md:w-[70%] lg:w-[60%]">
         <section>
@@ -109,40 +99,51 @@ const DoctorDetails = () => {
             <h2 className="text-lg font-semibold">Reviews and Rating</h2>
             <div className="flex gap-2 items-center cursor-pointer text-Background-Primary-Defult hover:underline">
               <GoPencil size={20} />
-              <p>Add Review</p>
+              <NavLink to="/AddReview">
+                <p>Add Review</p>
+              </NavLink>
             </div>
           </div>
 
           <div className="mt-5 flex justify-between items-center">
-            <h3 className="font-semibold text-xl">{data?.data?.average_rating}/5</h3>
-            <div className="flex flex-col items-center gap-2">
-              <RatingStars rating={data?.data?.average_rating ?? 0} />
-              <p className="hover:text-Background-Primary-Defult transition-colors duration-200">
+            {/* Average Rating */}
+            <h3 className="font-bold text-2xl md:text-3xl text-Background-Primary-Defult">
+              {Number(data?.data?.average_rating || 0).toFixed(1)}/5
+            </h3>
+
+            {/* Stars + Reviews */}
+            <div className="flex flex-col items-center gap-1">
+              <RatingStars rating={Number(data?.data?.average_rating) ?? 0} />
+
+              <p className="text-sm md:text-base text-Text-Neutral-Darker hover:text-Background-Primary-Defult transition-colors duration-200 cursor-pointer">
                 {data?.data?.reviews_count} reviews
               </p>
             </div>
           </div>
+
+
         </section>
 
-        <section className="mt-8 hover:bg-Background-Neutral-Lightest/10 p-4 rounded-xl transition-colors duration-200">
-          <div className="footer flex gap-4 items-center justify-between">
-            <div className="flex items-center">
-              <img src={profile} className="w-12 h-12 rounded-full" alt="profile" />
-              <div className="ms-4">
-                <h1 className="font-semibold">{data?.data?.name}</h1>
-                <p className="text-Text-Secondary-Defult">{data?.data?.start_time}</p>
+        {reviews?.data?.map((review) => (
+          <section key={review.id} className="mt-8 hover:bg-Background-Neutral-Lightest/10 p-4 rounded-xl transition-colors duration-200">
+            <div className="footer flex gap-4 items-center justify-between">
+              <div className="flex items-center">
+                <img src={profile} className="w-12 h-12 rounded-full" alt="profile" />
+                <div className="ms-4">
+                  <h1 className="font-semibold">{review.user?.name}</h1>
+                  <p className="text-Text-Secondary-Defult">{dayjs(review.created_at).fromNow()}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-1">
+                <RatingStars rating={review.rating} />
+                <span className="font-bold text-yellow-400">{review.rating}</span>
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <RatingStars rating={data?.data?.average_rating ?? 0} />
-              <span className="font-bold text-yellow-400">{data?.data?.average_rating}</span>
-            </div>
-          </div>
-          <p className="mt-4 text-Text-Neutral-Darker leading-relaxed">
-            Excellent service! Dr. {data?.data?.name} was attentive and thorough. The clinic was clean, and the staff
-            were friendly. Highly recommend for in-person care!
-          </p>
-        </section>
+            <p className="mt-4 text-Text-Neutral-Darker leading-relaxed">
+              {review.review}
+            </p>
+          </section>
+        ))}
 
         <section className="mt-8">
           <div className="flex items-center justify-between">
@@ -159,7 +160,6 @@ const DoctorDetails = () => {
             Book Appointment
           </Button>
           </NavLink>
-
         </section>
       </main>
     </>

@@ -7,6 +7,6 @@ export async function getDoctorDetails(): Promise<DoctorDetailsResponse> {
     return res.data as DoctorDetailsResponse;
   } catch (err) {
     console.error("Error fetching doctor details:", err);
-    return { current_page: 1, data: []};
+    return { current_page: 1, data: [] as DoctorDetailsResponse[]};
   }
 }
