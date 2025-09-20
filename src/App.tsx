@@ -38,6 +38,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/favorites", element: <Favorites /> },
+      { path: "/search", element: <Search /> },
       { path: "/signin", element: <SignIn /> },
       { path: "/signinEmail", element: <SignInWithEmail /> },
       { path: "/signinNumber", element: <SignInWithNumber /> },
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
       { path: "/pay", element: <Pay /> },
       { path: "/paymentMethod", element: <PaymentMethod /> },
       { path: "/profile", element: <Profile /> },
-      { path: "/search", element: <Search /> },
+
       { path: "/searchByLocation", element: <SearchByLocation /> },
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
