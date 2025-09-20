@@ -1,12 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Speciality } from "@/types/speciality";
 import type { Doctor } from "@/types/Doctor";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { DoctorCard } from "@/components/shared";
+import debounce from "lodash.debounce";
 
 const Search = () => {
   const [specialities, setSpecialities] = useState<Speciality[]>([]);
@@ -19,10 +20,11 @@ const Search = () => {
   const [errorSpecialities, setErrorSpecialities] = useState(false);
   const [errorDoctors, setErrorDoctors] = useState<string | null>(null);
 
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
   const navigate = useNavigate();
 
   function filterBtnHandler() {}
-  function inputHandler() {}
 
   useEffect(() => {
     const fetchSpecialities = async () => {
@@ -63,7 +65,6 @@ const Search = () => {
         );
         if (!res.ok) throw new Error(`Doctors error: ${res.status}`);
         const data = await res.json();
-        console.log(data.data);
         setDoctors(data.data);
       } catch (err) {
         setErrorDoctors(err instanceof Error ? err.message : "Unknown error");
@@ -74,7 +75,30 @@ const Search = () => {
 
     fetchSpecialities();
     fetchDoctors();
+    setFilteredDoctors(doctors);
   }, []);
+
+  // Input handler
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    // Clear any previous timer
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    // Start new debounce
+    debounceRef.current = setTimeout(() => {
+      if (!value.trim()) {
+        setFilteredDoctors(doctors);
+      } else {
+        const results = doctors.filter((doc) =>
+          doc.name?.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredDoctors(results);
+      }
+    }, 500); // 500ms debounce
+  };
 
   return (
     <div>
@@ -188,9 +212,9 @@ const Search = () => {
       </div>
 
       {/* container holds slider and (specialities and content) */}
-      <div className="flex gap-12">
+      <div className="flex max-w-full gap-6 ">
         {/* sidebar */}
-        <div className="flex flex-col gap-4 mb-20  ">
+        <div className="flex flex-col gap-4 mb-20 w-[235px] ">
           <div className="flex-col flex gap-3 w-fit">
             <p className="text-sm mb-1">Available Date</p>
             <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
@@ -218,10 +242,10 @@ const Search = () => {
           <div
             role="radiogroup"
             aria-label="Recommendations"
-            className="flex-col flex gap-3"
+            className="flex-col flex gap-3 w-fit"
           >
             <p className="text-sm mb-1">Sort</p>
-            <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+            <label className="flex flex-shrink-0 items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
               <input
                 type="radio"
                 name="recommendation"
@@ -234,7 +258,7 @@ const Search = () => {
               >
                 <Check className="w-3 h-3 text-white" />
               </span>
-              Most recommended
+              <span className="w-fit">Most recommended</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
               <input
@@ -270,14 +294,15 @@ const Search = () => {
         </div>
 
         {/* specialities and content */}
-        <div className="flex flex-col gap-8 w-full">
+        <div className="flex flex-col gap-8 w-full overflow-hidden ">
           <div>
             <h3 className="text-lg md:text-2xl mb-4">Choose Specialties</h3>
-            <div className="[clip-path:inset(0px_-60%_-5px_-5px)]">
+            <div className="overflow-hidden max-w-full ">
               <Swiper
-                spaceBetween={24}
+                spaceBetween={18}
                 slidesPerView="auto" // default for small screens
                 className="!overflow-visible"
+                loop={true}
               >
                 {loadingSpecialities
                   ? Array.from({ length: 4 }).map((_, idx) => (
@@ -298,9 +323,9 @@ const Search = () => {
               </Swiper>
             </div>
           </div>
-          <div className="flex-wrap flex mb-16 gap-6 w-full">
-            {doctors.length ? (
-              doctors.map((doctor) => (
+          <div className="flex-wrap flex mb-16 gap-6 max-w-full pl-1">
+            {filteredDoctors.length ? (
+              filteredDoctors.map((doctor) => (
                 <DoctorCard key={doctor.doctor_profile_id} doctor={doctor} />
               ))
             ) : (
