@@ -1,53 +1,51 @@
+// ForgotPassword.tsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import signup from "../../assets/images/Sign up.png";
-import { toast } from "react-hot-toast";
 
-interface SignInValues {
+interface ForgotPasswordValues {
   email: string;
-  password: string;
 }
 
-const SignInSchema = Yup.object().shape({
+const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
-  password: Yup.string().required("Password is required"),
 });
 
-const SignInWithEmail: React.FC = () => {
+const ForgotPassword: React.FC = () => {
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const initialValues: SignInValues = { email: "", password: "" };
+  const initialValues: ForgotPasswordValues = { email: "" };
 
-  const handleSubmit = async (values: SignInValues) => {
+  const handleSubmit = async (values: ForgotPasswordValues) => {
     try {
-      const res = await fetch(`${API_BASE_URL}/login`, {
+      const res = await fetch(`${API_BASE_URL}/send-reset-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ email: values.email }),
       });
+
+      // حاول نقرا الـ JSON حتى لو الحالة ليست ok
       const data = await res.json();
-      console.log("Login success:", data);
+      console.log("Forgot password response:", data);
 
       if (data.success) {
-        if (data.data?.token) {
-          localStorage.setItem("token", data.data.token);
-        }
-        toast.success(data.message || "Done");
-        navigate("/");
+        toast.success(data.message || "OTP sent successfully to your email.");
+        localStorage.setItem("resetEmail", values.email);
+        navigate("/verify-otp");
       } else {
-        console.error("Login failed:", data.message || "Unknown error");
-        toast.error(data.message || "Failed to login");
+        toast.error(data.message || "Failed to send OTP.");
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Forgot password error:", error);
       toast.error("Something went wrong, please try again.");
     }
   };
@@ -55,17 +53,17 @@ const SignInWithEmail: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <div
-        className="w-full max-w-5xl min-h-[100vh] flex items-center rounded-2xl shadow-lg bg-cover bg-center p-10 "
+        className="w-full max-w-5xl min-h-[100vh] flex items-center rounded-2xl shadow-lg bg-cover bg-center p-10"
         style={{ backgroundImage: `url(${signup})` }}
       >
         <div className="p-4 rounded-xl w-full max-w-md md:ml-20 bg-white/80">
           <h1 className="text-xl font-semibold mb-6 text-gray-800 text-center">
-            Sign In
+            Forgot Password
           </h1>
 
           <Formik
             initialValues={initialValues}
-            validationSchema={SignInSchema}
+            validationSchema={ForgotPasswordSchema}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
@@ -80,7 +78,7 @@ const SignInWithEmail: React.FC = () => {
                     type="email"
                     name="email"
                     placeholder="Enter your email"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border border-gray-300 rounded-[8px] p-2 w-full"
                   />
                   <ErrorMessage
                     name="email"
@@ -89,46 +87,19 @@ const SignInWithEmail: React.FC = () => {
                   />
                 </div>
 
-                {/* Password */}
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Password
-                  </label>
-                  <Field
-                    as={Input}
-                    type="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
-                  />
-                  <ErrorMessage
-                    name="password"
-                    component="div"
-                    className="text-red-500 text-sm"
-                  />
-                </div>
-                <div className="flex justify-end">
-                  <Link
-                    to="/forgotpassword"
-                    className="text-sm text-blue-600 hover:underline"
-                  >
-                    Forgot Password?
-                  </Link>
-                </div>
-
                 {/* Submit */}
                 <Button
                   type="submit"
                   disabled={isSubmitting}
                   className="w-full"
                 >
-                  {isSubmitting ? "Signing in..." : "Sign In"}
+                  {isSubmitting ? "Sending..." : "Send OTP"}
                 </Button>
 
                 <p className="text-center text-sm text-gray-600 mt-6">
-                  Don’t have an account?{" "}
-                  <Link to="/signup" className="text-blue-600 font-medium">
-                    Sign Up
+                  Remembered your password?{" "}
+                  <Link to="/signinEmail" className="text-blue-600 font-medium">
+                    Sign In
                   </Link>
                 </p>
               </Form>
@@ -140,4 +111,4 @@ const SignInWithEmail: React.FC = () => {
   );
 };
 
-export default SignInWithEmail;
+export default ForgotPassword;

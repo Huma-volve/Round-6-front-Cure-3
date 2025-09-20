@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Bell, Search } from "lucide-react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
@@ -94,7 +94,7 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/bookings"
+            to="/booking"
             onClick={() => setIsOpen(false)}
             className="text-gray-800 text-lg font-semibold hover:text-primary transition-colors"
           >

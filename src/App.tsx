@@ -28,19 +28,17 @@ import TheMap from "./features/TheMap/TheMap";
 import VisaVersion from "./features/VisaVersion/VisaVersion";
 // import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
+import ForgotPassword from "./features/SignInWithYourEmail/ForgotPassword";
+import VerifyOtp from "./features/SignInWithYourEmail/VerifyOtp";
+import ResetPassword from "./features/SignInWithYourEmail/ResetPassword";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     errorElement: <NotFound />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signinEmail", element: <SignInWithEmail /> },
-      { path: "/signinNumber", element: <SignInWithNumber /> },
-      { path: "/signup", element: <SignUp /> },
-    ],
+    children: [{ path: "/", element: <Home /> }],
   },
   {
     // element: (
@@ -72,11 +70,23 @@ const router = createBrowserRouter([
       { path: "/visa", element: <VisaVersion /> },
     ],
   },
+  { path: "/signin", element: <SignIn /> },
+  { path: "/signinEmail", element: <SignInWithEmail /> },
+  { path: "/signinNumber", element: <SignInWithNumber /> },
+  { path: "/signup", element: <SignUp /> },
+  { path: "/forgotpassword", element: <ForgotPassword /> },
+  { path: "/verify-otp", element: <VerifyOtp /> },
+  { path: "/reset-password", element: <ResetPassword /> },
   { path: "*", element: <NotFound /> },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <Toaster position="top-right" />
+    </>
+  );
 }
 
 export default App;
