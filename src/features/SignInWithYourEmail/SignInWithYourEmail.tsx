@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import signup from "../../assets/images/Sign up.png";
 import { toast } from "react-hot-toast";
+import { FaFacebook, FaGoogle, FaApple } from "react-icons/fa";
 
 interface SignInValues {
   email: string;
@@ -124,6 +125,34 @@ const SignInWithEmail: React.FC = () => {
                 >
                   {isSubmitting ? "Signing in..." : "Sign In"}
                 </Button>
+                {/* OR Section */}
+                <div className="flex items-center my-6">
+                  <div className="flex-grow h-px bg-gray-300"></div>
+                  <span className="px-4 text-sm text-gray-500">OR</span>
+                  <div className="flex-grow h-px bg-gray-300"></div>
+                </div>
+
+                {/* Social Icons */}
+                <div className="flex justify-center gap-6">
+                  <button
+                    type="button"
+                    className="p-3 rounded-2xl border border-gray-300 hover:bg-gray-100 transition"
+                  >
+                    <FaFacebook className="text-blue-600 w-6 h-6" />
+                  </button>
+                  <button
+                    type="button"
+                    className="p-3 rounded-2xl border border-gray-300 hover:bg-gray-100 transition"
+                  >
+                    <FaGoogle className="text-red-500 w-6 h-6" />
+                  </button>
+                  <button
+                    type="button"
+                    className="p-3 rounded-2xl border border-gray-300 hover:bg-gray-100 transition"
+                  >
+                    <FaApple className="text-gray-800 w-6 h-6" />
+                  </button>
+                </div>
 
                 <p className="text-center text-sm text-gray-600 mt-6">
                   Don’t have an account?{" "}
