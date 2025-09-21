@@ -20,15 +20,14 @@ type FilterState = {
   days: string[]; // [today, tomorrow]
   search: string;
   sortBy: "most-recommended" | "low-to-high" | "high-to-low" | "";
+  speciality: string | null; // e.g. "Cardiology"
 };
 
 type FilterAction =
-  | { type: "TOGGLE_DAY"; payload: "today" | "tomorrow" }
+  | { type: "TOGGLE_DAY"; payload: string }
   | { type: "SET_SEARCH"; payload: string }
-  | {
-      type: "SET_SORT";
-      payload: "most-recommended" | "low-to-high" | "high-to-low";
-    }
+  | { type: "SET_SORT"; payload: string | null }
+  | { type: "SET_SPECIALITY"; payload: string | null }
   | { type: "RESET" };
 
 function filterReducer(state: FilterState, action: FilterAction): FilterState {
@@ -44,6 +43,8 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
       return { ...state, search: action.payload };
     case "SET_SORT":
       return { ...state, sortBy: action.payload };
+    case "SET_SPECIALITY":
+      return { ...state, speciality: action.payload };
     case "RESET":
       return initialFilterState;
     default:
@@ -51,13 +52,18 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
   }
 }
 
-const initialFilterState: FilterState = { days: [], search: "", sortBy: "" };
+const initialFilterState: FilterState = {
+  days: [],
+  search: "",
+  sortBy: "",
+  speciality: null,
+};
 
-function filterDoctors(doctors: Doctor[], filters: FilterState) {
+function filterDoctors(doctors: Doctor[], state: FilterState): Doctor[] {
   let result = doctors;
 
-  // فلترة بالأيام
-  if (filters.days.length > 0) {
+  // Day filter
+  if (state.days.length > 0) {
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(today.getDate() + 1);
@@ -67,43 +73,40 @@ function filterDoctors(doctors: Doctor[], filters: FilterState) {
 
     const todayStr = formatDay(today).toLowerCase();
     const tomorrowStr = formatDay(tomorrow).toLowerCase();
-
     result = result.filter((doc) => {
       const docDay = doc.day.toLowerCase();
       return (
-        (filters.days.includes("today") && docDay === todayStr) ||
-        (filters.days.includes("tomorrow") && docDay === tomorrowStr)
+        (state.days.includes("today") && docDay === todayStr) ||
+        (state.days.includes("tomorrow") && docDay === tomorrowStr)
       );
     });
   }
 
-  // فلترة بالـ search
-  if (filters.search.trim()) {
+  // Search filter
+  if (state.search.trim()) {
     result = result.filter((doc) =>
-      doc.name?.toLowerCase().includes(filters.search.toLowerCase())
+      doc.name?.toLowerCase().includes(state.search.toLowerCase())
     );
   }
 
-  // ✅ Sorting
-  if (filters.sortBy) {
-    result = [...result]; // اعمل نسخة قبل الترتيب
-    switch (filters.sortBy) {
-      case "most-recommended":
-        result.sort(
-          (a, b) => parseFloat(b.average_rating) - parseFloat(a.average_rating)
-        );
-        break;
-      case "low-to-high":
-        result.sort(
-          (a, b) => parseFloat(a.price_per_hour) - parseFloat(b.price_per_hour)
-        );
-        break;
-      case "high-to-low":
-        result.sort(
-          (a, b) => parseFloat(b.price_per_hour) - parseFloat(a.price_per_hour)
-        );
-        break;
-    }
+  // Speciality filter
+  if (state.speciality) {
+    result = result.filter((doc) => doc.specialty_name_en === state.speciality);
+  }
+
+  // Sorting
+  if (state.sortBy === "most-recommended") {
+    result = [...result].sort(
+      (a, b) => parseFloat(b.average_rating) - parseFloat(a.average_rating)
+    );
+  } else if (state.sortBy === "low-to-high") {
+    result = [...result].sort(
+      (a, b) => parseFloat(a.price_per_hour) - parseFloat(b.price_per_hour)
+    );
+  } else if (state.sortBy === "high-to-low") {
+    result = [...result].sort(
+      (a, b) => parseFloat(b.price_per_hour) - parseFloat(a.price_per_hour)
+    );
   }
 
   return result;
@@ -187,8 +190,6 @@ const Search = () => {
     return filterDoctors(doctors, filterState);
   }, [doctors, filterState]);
 
-  function filterBtnHandler() {}
-
   return (
     <div>
       {/* search bar and buttons */}
@@ -201,12 +202,6 @@ const Search = () => {
         />
         <Dialog>
           <DialogTrigger className="w-fit !py-3 !px-6 text-Text-Neutral-Darker border-Text-Neutral-Darker border-[1px] rounded-[10px] flex flex-row gap-2 items-center hover:text-Background-Primary-Defult hover:border-Background-Primary-Defult">
-            {/* <Button
-              className="lg:order-1"
-              variant="ghost"
-              // onClick={filterBtnHandler}
-            >
-            </Button> */}
             <svg
               width="21"
               height="20"
@@ -531,7 +526,7 @@ const Search = () => {
             <div className="overflow-hidden max-w-full ">
               <Swiper
                 spaceBetween={18}
-                slidesPerView="auto" // default for small screens
+                slidesPerView="auto"
                 className="!overflow-visible"
                 loop={true}
               >
@@ -543,12 +538,27 @@ const Search = () => {
                     ))
                   : specialities.map((speciality) => (
                       <SwiperSlide key={speciality.id} className="!w-fit">
-                        <div className="py-2 px-3 flex flex-row items-center gap-2 border-[1px] border-Background-Neutral-Darker rounded-[8px]">
-                          <img src={speciality.icon} alt={speciality.name_en} />{" "}
+                        <label className="py-2 px-3 flex flex-row items-center gap-2 border-[1px] border-Background-Neutral-Darker rounded-[8px] cursor-pointer">
+                          <input
+                            type="radio"
+                            name="speciality"
+                            value={speciality.name_en}
+                            className="peer sr-only"
+                            // checked={
+                            //   filterState.speciality === speciality.name_en
+                            // }
+                            onChange={() =>
+                              dispatch({
+                                type: "SET_SPECIALITY",
+                                payload: speciality.name_en,
+                              })
+                            }
+                          />
+                          <img src={speciality.icon} alt={speciality.name_en} />
                           <p className="text-Text-Neutral-Darker text-base">
                             {speciality.name_en}
                           </p>
-                        </div>
+                        </label>
                       </SwiperSlide>
                     ))}
               </Swiper>
