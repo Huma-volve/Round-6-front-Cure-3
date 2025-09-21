@@ -84,7 +84,7 @@ const SignUp: React.FC = () => {
         className="w-full max-w-5xl min-h-[100vh] flex items-center rounded-2xl shadow-lg bg-cover bg-center p-10"
         style={{ backgroundImage: `url(${signup})` }}
       >
-        <div className=" bg-transparent p-4 rounded-xl w-full max-w-md md:ml-20 bg-white/80">
+        <div className="  p-4 rounded-xl w-full max-w-md md:ml-20 bg-white/80">
           <h1 className="text-xl font-semibold mb-6 text-gray-800 text-center">
             Create New Account
           </h1>
