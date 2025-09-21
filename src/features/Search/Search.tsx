@@ -9,13 +9,18 @@ import "swiper/css";
 import { DoctorCard } from "@/components/shared";
 
 type FilterState = {
-  days: string[]; // ["today", "tomorrow"]
+  days: string[]; // [today, tomorrow]
   search: string;
+  sortBy: "most-recommended" | "low-to-high" | "high-to-low" | "";
 };
 
 type FilterAction =
   | { type: "TOGGLE_DAY"; payload: "today" | "tomorrow" }
   | { type: "SET_SEARCH"; payload: string }
+  | {
+      type: "SET_SORT";
+      payload: "most-recommended" | "low-to-high" | "high-to-low";
+    }
   | { type: "RESET" };
 
 function filterReducer(state: FilterState, action: FilterAction): FilterState {
@@ -28,10 +33,9 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
           : [...state.days, action.payload],
       };
     case "SET_SEARCH":
-      return {
-        ...state,
-        search: action.payload,
-      };
+      return { ...state, search: action.payload };
+    case "SET_SORT":
+      return { ...state, sortBy: action.payload };
     case "RESET":
       return initialFilterState;
     default:
@@ -39,7 +43,7 @@ function filterReducer(state: FilterState, action: FilterAction): FilterState {
   }
 }
 
-const initialFilterState: FilterState = { days: [], search: "" };
+const initialFilterState: FilterState = { days: [], search: "", sortBy: "" };
 
 function filterDoctors(doctors: Doctor[], filters: FilterState) {
   let result = doctors;
@@ -70,6 +74,28 @@ function filterDoctors(doctors: Doctor[], filters: FilterState) {
     result = result.filter((doc) =>
       doc.name?.toLowerCase().includes(filters.search.toLowerCase())
     );
+  }
+
+  // ✅ Sorting
+  if (filters.sortBy) {
+    result = [...result]; // اعمل نسخة قبل الترتيب
+    switch (filters.sortBy) {
+      case "most-recommended":
+        result.sort(
+          (a, b) => parseFloat(b.average_rating) - parseFloat(a.average_rating)
+        );
+        break;
+      case "low-to-high":
+        result.sort(
+          (a, b) => parseFloat(a.price_per_hour) - parseFloat(b.price_per_hour)
+        );
+        break;
+      case "high-to-low":
+        result.sort(
+          (a, b) => parseFloat(b.price_per_hour) - parseFloat(a.price_per_hour)
+        );
+        break;
+    }
   }
 
   return result;
@@ -269,7 +295,7 @@ const Search = () => {
       {/* container holds slider and (specialities and content) */}
       <div className="flex max-w-full gap-6 ">
         {/* sidebar */}
-        <div className="flex flex-col gap-4 mb-20 w-[235px] ">
+        <div className="hidden lg:flex flex-col gap-4 mb-20 w-[235px] ">
           <div className="flex-col flex gap-3 w-fit">
             <p className="text-sm mb-1">Available Date</p>
             <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
@@ -318,6 +344,10 @@ const Search = () => {
                 name="recommendation"
                 className="peer sr-only"
                 value="most-recommended"
+                checked={filterState.sortBy === "most-recommended"}
+                onChange={() =>
+                  dispatch({ type: "SET_SORT", payload: "most-recommended" })
+                }
               />
               <span
                 className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
@@ -333,6 +363,10 @@ const Search = () => {
                 name="recommendation"
                 className="peer sr-only"
                 value="low-to-high"
+                checked={filterState.sortBy === "low-to-high"}
+                onChange={() =>
+                  dispatch({ type: "SET_SORT", payload: "low-to-high" })
+                }
               />
               <span
                 className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
@@ -348,6 +382,10 @@ const Search = () => {
                 name="recommendation"
                 className="peer sr-only"
                 value="high-to-low"
+                checked={filterState.sortBy === "high-to-low"}
+                onChange={() =>
+                  dispatch({ type: "SET_SORT", payload: "high-to-low" })
+                }
               />
               <span
                 className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
