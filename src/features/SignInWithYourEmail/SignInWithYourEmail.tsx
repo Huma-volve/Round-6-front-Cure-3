@@ -1,8 +1,5 @@
-
 const SignInWithYourEmail = () => {
-  return (
-    <div>SignInWithYourEmail</div>
-  )
-}
+  return <div>SignInWithYourEmail</div>;
+};
 
-export default SignInWithYourEmail
+export default SignInWithYourEmail;

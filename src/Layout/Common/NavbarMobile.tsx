@@ -1,7 +1,5 @@
 const NavbarMobile = () => {
-  return (
-    <div>NavbarMobile</div>
-  )
-}
+  return <div>NavbarMobile</div>;
+};
 
-export default NavbarMobile
+export default NavbarMobile;

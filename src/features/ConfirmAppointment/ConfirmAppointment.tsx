@@ -1,8 +1,5 @@
-
 const ConfirmAppointment = () => {
-  return (
-    <div>ConfirmAppointment</div>
-  )
-}
+  return <div>ConfirmAppointment</div>;
+};
 
-export default ConfirmAppointment
+export default ConfirmAppointment;

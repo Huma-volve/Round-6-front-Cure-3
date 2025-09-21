@@ -1,8 +1,5 @@
-
 const Orthopedic = () => {
-  return (
-    <div>Orthopedic</div>
-  )
-}
+  return <div>Orthopedic</div>;
+};
 
-export default Orthopedic
+export default Orthopedic;
