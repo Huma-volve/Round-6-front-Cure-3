@@ -15,6 +15,7 @@ export type DoctorDetails = {
     reviews_count: number,
     start_time: string,
     end_time: string,
+    doctor_profile_id :number
   };
   
   export type DoctorDetailsResponse = {

@@ -51,7 +51,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/privacyPolicy", element: <PrivacyPolicy /> },
       { path: "/bookings", element: <Booking /> },
-      { path: "/confirmAppointment", element: <ConfirmAppointment /> },
+      { path: "/confirmAppointment/:id", element: <ConfirmAppointment /> },
       { path: "/doctorDetails/:id", element: <DoctorDetails /> },
       { path: "/doctorsNearYou", element: <DoctorsNearYou /> },
       { path: "/emptyCards", element: <EmptyCards /> },
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
       { path: "/notifications", element: <Notification /> },
       { path: "/orthopedic", element: <Orthopedic /> },
       { path: "/otp", element: <Opt /> },
-      { path: "/pay", element: <Pay /> },
+      { path: "/pay/:id", element: <Pay /> },
       { path: "/paymentMethod", element: <PaymentMethod /> },
       { path: "/profile", element: <Profile /> },
       { path: "/AddReview", element: <AddReview /> },
