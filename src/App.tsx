@@ -19,9 +19,7 @@ import Profile from "./features/Profile/Profile";
 import Search from "./features/Search/Search";
 import SearchByLocation from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 import Settings from "./features/Settings/Settings";
-import SignIn from "./features/SignIn/SignIn";
 import SignInWithEmail from "./features/SignInWithYourEmail/SignInWithYourEmail";
-import SignInWithNumber from "./features/SignInWithYourNumber/SignInWithYourNumber";
 import SignUp from "./features/SignUp/SignUp";
 import Specialties from "./features/Speciaties/Speciaties";
 import TheMap from "./features/TheMap/TheMap";
@@ -70,9 +68,7 @@ const router = createBrowserRouter([
       { path: "/visa", element: <VisaVersion /> },
     ],
   },
-  { path: "/signin", element: <SignIn /> },
   { path: "/signinEmail", element: <SignInWithEmail /> },
-  { path: "/signinNumber", element: <SignInWithNumber /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/forgotpassword", element: <ForgotPassword /> },
   { path: "/verify-otp", element: <VerifyOtp /> },
