@@ -24,10 +24,13 @@ const VerifyOtp: React.FC = () => {
 
   useEffect(() => {
     const savedEmail = localStorage.getItem("resetEmail");
+    const savedOtp = localStorage.getItem("resetOtp");
     if (savedEmail) {
       setEmail(savedEmail);
+      if (savedOtp) {
+        alert(`Your OTP is: ${savedOtp}`);
+      }
     } else {
-      // If no email, redirect back to forgot password
       navigate("/forgotpassword");
     }
   }, [navigate]);
@@ -42,7 +45,7 @@ const VerifyOtp: React.FC = () => {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify({ email, otp: values.otp }), // ✅ send email + otp
+        body: JSON.stringify({ email, otp: values.otp }),
       });
 
       const data = await res.json();
@@ -51,7 +54,6 @@ const VerifyOtp: React.FC = () => {
       if (data.success) {
         toast.success(data.message || "Done");
 
-        // ✅ Navigate to reset password page
         navigate("/reset-password", {
           state: { email, otp: values.otp },
         });

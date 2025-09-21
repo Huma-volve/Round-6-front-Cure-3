@@ -26,7 +26,6 @@ const ResetPassword: React.FC = () => {
   const location = useLocation();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // 👇 get email + otp passed from VerifyOtp page
   const { email, otp } = location.state || {};
 
   if (!email || !otp) {

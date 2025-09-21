@@ -1,4 +1,3 @@
-// ForgotPassword.tsx
 import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -33,13 +32,18 @@ const ForgotPassword: React.FC = () => {
         body: JSON.stringify({ email: values.email }),
       });
 
-      // حاول نقرا الـ JSON حتى لو الحالة ليست ok
       const data = await res.json();
       console.log("Forgot password response:", data);
 
       if (data.success) {
         toast.success(data.message || "OTP sent successfully to your email.");
         localStorage.setItem("resetEmail", values.email);
+        const note = data.data?.note || "";
+        const match = note.match(/\{(\d+)\}/);
+        const otp = match ? match[1] : null;
+        if (otp) {
+          localStorage.setItem("resetOtp", otp);
+        }
         navigate("/verify-otp");
       } else {
         toast.error(data.message || "Failed to send OTP.");
