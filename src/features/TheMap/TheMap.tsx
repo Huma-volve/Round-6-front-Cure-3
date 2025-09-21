@@ -1,8 +1,5 @@
-
 const TheMap = () => {
-  return (
-    <div>TheMap</div>
-  )
-}
+  return <div>TheMap</div>;
+};
 
-export default TheMap
+export default TheMap;

@@ -1,8 +1,5 @@
-
 const SearchByYourLocationDoctors = () => {
-  return (
-    <div>SearchByYourLocationDoctors</div>
-  )
-}
+  return <div>SearchByYourLocationDoctors</div>;
+};
 
-export default SearchByYourLocationDoctors
+export default SearchByYourLocationDoctors;

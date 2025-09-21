@@ -1,8 +1,5 @@
-
 const Opt = () => {
-  return (
-    <div>Opt</div>
-  )
-}
+  return <div>Opt</div>;
+};
 
-export default Opt
+export default Opt;

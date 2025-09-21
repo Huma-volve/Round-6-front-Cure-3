@@ -25,9 +25,14 @@ import SignInWithNumber from "./features/SignInWithYourNumber/SignInWithYourNumb
 import SignUp from "./features/SignUp/SignUp";
 import Specialties from "./features/Speciaties/Speciaties";
 import TheMap from "./features/TheMap/TheMap";
-import VisaVersion from "./features/VisaVersion/VisaVersion";
 // import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
+import { EditProfile } from "./features/EditProfile/EditProfile";
+// import PasswordManagement from "./features/Settings/PasswordManagement";
+import UserContextProvider from "./context/Mohamed/UserContext";
+import { Toaster } from "react-hot-toast";
+import AddNewCard from "./features/AddNewCard/AddNewCard";
+import PasswordResetFlow from "./features/Settings/PasswordResetFlow";
 
 const router = createBrowserRouter([
   {
@@ -69,14 +74,21 @@ const router = createBrowserRouter([
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
       { path: "/map", element: <TheMap /> },
-      { path: "/visa", element: <VisaVersion /> },
+      { path: "/addNewCard", element: <AddNewCard /> },
+      { path: "/editProfile", element: <EditProfile /> },
+      { path: "/passwordResetFlow", element: <PasswordResetFlow /> },
     ],
   },
   { path: "*", element: <NotFound /> },
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <UserContextProvider>
+      <RouterProvider router={router} />
+      <Toaster />
+    </UserContextProvider>
+  );
 }
 
 export default App;

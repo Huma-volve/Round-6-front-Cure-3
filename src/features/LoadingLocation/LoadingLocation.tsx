@@ -1,8 +1,5 @@
-
 const LoadingLocation = () => {
-  return (
-    <div>LoadingLocation</div>
-  )
-}
+  return <div>LoadingLocation</div>;
+};
 
-export default LoadingLocation
+export default LoadingLocation;

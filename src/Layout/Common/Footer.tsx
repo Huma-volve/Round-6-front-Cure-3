@@ -31,7 +31,11 @@ const contactInfo = [
 ];
 const socialMedia = [
   { icon: facebookIcon, alt: "Facebook", url: "https://www.facebook.com/" },
-  { icon: whatsappIcon, alt: "Whatsapp", url: "https://www.whatsapp.com/cure" },
+  {
+    icon: whatsappIcon,
+    alt: "Whatsapp",
+    url: "https://www.whatsapp.com/cure",
+  },
   { icon: youtubeIcon, alt: "Youtube", url: "https://www.youtube.com/" },
   { icon: linkedinIcon, alt: "Linkedin", url: "https://www.linkedin.com/" },
 ];
