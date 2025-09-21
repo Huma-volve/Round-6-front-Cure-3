@@ -18,9 +18,7 @@ import Profile from "./features/Profile/Profile";
 import Search from "./features/Search/Search";
 import SearchByLocation from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 import Settings from "./features/Settings/Settings";
-import SignIn from "./features/SignIn/SignIn";
 import SignInWithEmail from "./features/SignInWithYourEmail/SignInWithYourEmail";
-import SignInWithNumber from "./features/SignInWithYourNumber/SignInWithYourNumber";
 import SignUp from "./features/SignUp/SignUp";
 import Specialties from "./features/Speciaties/Speciaties";
 import TheMap from "./features/TheMap/TheMap";
@@ -32,19 +30,17 @@ import NotFound from "./Layout/Common/NotFound";
 import AddReview from "./features/AddReview/AddReview";
 
 
+import ForgotPassword from "./features/SignInWithYourEmail/ForgotPassword";
+import VerifyOtp from "./features/SignInWithYourEmail/VerifyOtp";
+import ResetPassword from "./features/SignInWithYourEmail/ResetPassword";
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
     errorElement: <NotFound />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signinEmail", element: <SignInWithEmail /> },
-      { path: "/signinNumber", element: <SignInWithNumber /> },
-      { path: "/signup", element: <SignUp /> },
-    ],
+    children: [{ path: "/", element: <Home /> }],
   },
   {
     // element: (
@@ -77,6 +73,11 @@ const router = createBrowserRouter([
       { path: "/visa", element: <VisaVersion /> },
     ],
   },
+  { path: "/signinEmail", element: <SignInWithEmail /> },
+  { path: "/signup", element: <SignUp /> },
+  { path: "/forgotpassword", element: <ForgotPassword /> },
+  { path: "/verify-otp", element: <VerifyOtp /> },
+  { path: "/reset-password", element: <ResetPassword /> },
   { path: "*", element: <NotFound /> },
 ]);
 
@@ -86,6 +87,7 @@ function App() {
   return (
     <QueryClientProvider client={clint}>
       <RouterProvider router={router} />
+      <Toaster position="top-right" />
     </QueryClientProvider>
   );
 }
