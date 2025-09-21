@@ -23,10 +23,9 @@ const Pay = () => {
 
   const { doctor, date, time } = location.state || {};
 
-  // لو حد دخل الصفحة من غير بيانات
   useEffect(() => {
     if (!doctor || !date || !time) {
-      navigate("/confirmAppointment");
+      navigate(`/confirmAppointment/${doctor?.doctor_profile_id}`);
     }
   }, [doctor, date, time, navigate]);
 
@@ -35,7 +34,7 @@ const Pay = () => {
       <Header
         title="Pay"
         showBack
-        onBack={() => navigate(`/confirmAppointment`)}
+        onBack={() => navigate(`/confirmAppointment/${doctor?.doctor_profile_id}`)}
       />
 
       <main className="mt-7 w-[90%] mx-auto">

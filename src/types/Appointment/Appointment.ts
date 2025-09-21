@@ -4,8 +4,9 @@ export type AvailableSlot = {
     time: string; // e.g. "10:00"
   };
   
-  export type DoctorSlotsResponse = {
+export type DoctorSlotsResponse = {
     doctor_id: string;
     available_slots: AvailableSlot[];
   };
   
+

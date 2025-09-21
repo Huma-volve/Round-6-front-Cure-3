@@ -152,7 +152,7 @@ const DoctorDetails = () => {
             </p>
             <p className="text-Text-Semantic-Error-Defult text-lg">{data?.data?.price_per_hour}$</p>
           </div>
-          <NavLink to="/confirmAppointment">
+          <NavLink to={`/confirmAppointment/${data?.data?.doctor_profile_id}`}>
           <Button
             variant="default"
             onClick={() => navigator("/confirmAppointment")}
