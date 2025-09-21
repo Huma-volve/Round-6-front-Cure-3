@@ -19,7 +19,7 @@ import {
 type FilterState = {
   days: string[]; // [today, tomorrow]
   search: string;
-  sortBy: "most-recommended" | "low-to-high" | "high-to-low" | "";
+  sortBy: string | null;
   speciality: string | null; // e.g. "Cardiology"
 };
 
