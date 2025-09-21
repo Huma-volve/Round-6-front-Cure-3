@@ -1,36 +1,94 @@
 import { Button } from "@/components/ui/button";
 import { Check } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Speciality } from "@/types/speciality";
 import type { Doctor } from "@/types/Doctor";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { DoctorCard } from "@/components/shared";
-import debounce from "lodash.debounce";
+
+type FilterState = {
+  days: string[]; // ["today", "tomorrow"]
+  search: string;
+};
+
+type FilterAction =
+  | { type: "TOGGLE_DAY"; payload: "today" | "tomorrow" }
+  | { type: "SET_SEARCH"; payload: string }
+  | { type: "RESET" };
+
+function filterReducer(state: FilterState, action: FilterAction): FilterState {
+  switch (action.type) {
+    case "TOGGLE_DAY":
+      return {
+        ...state,
+        days: state.days.includes(action.payload)
+          ? state.days.filter((d) => d !== action.payload)
+          : [...state.days, action.payload],
+      };
+    case "SET_SEARCH":
+      return {
+        ...state,
+        search: action.payload,
+      };
+    case "RESET":
+      return initialFilterState;
+    default:
+      return state;
+  }
+}
+
+const initialFilterState: FilterState = { days: [], search: "" };
+
+function filterDoctors(doctors: Doctor[], filters: FilterState) {
+  let result = doctors;
+
+  // فلترة بالأيام
+  if (filters.days.length > 0) {
+    const today = new Date();
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+
+    const formatDay = (date: Date) =>
+      date.toLocaleDateString("en-US", { weekday: "long" });
+
+    const todayStr = formatDay(today).toLowerCase();
+    const tomorrowStr = formatDay(tomorrow).toLowerCase();
+
+    result = result.filter((doc) => {
+      const docDay = doc.day.toLowerCase();
+      return (
+        (filters.days.includes("today") && docDay === todayStr) ||
+        (filters.days.includes("tomorrow") && docDay === tomorrowStr)
+      );
+    });
+  }
+
+  // فلترة بالـ search
+  if (filters.search.trim()) {
+    result = result.filter((doc) =>
+      doc.name?.toLowerCase().includes(filters.search.toLowerCase())
+    );
+  }
+
+  return result;
+}
 
 const Search = () => {
+  const navigate = useNavigate();
   const [specialities, setSpecialities] = useState<Speciality[]>([]);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [filteredDoctors, setFilteredDoctors] = useState(doctors);
+  // const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 
   const [loadingSpecialities, setLoadingSpecialities] = useState(true);
   const [loadingDoctors, setLoadingDoctors] = useState(true);
-
-  const [errorSpecialities, setErrorSpecialities] = useState(false);
-  const [errorDoctors, setErrorDoctors] = useState<string | null>(null);
-
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
-
-  const navigate = useNavigate();
-
-  function filterBtnHandler() {}
 
   useEffect(() => {
     const fetchSpecialities = async () => {
       try {
         setLoadingSpecialities(true);
-        setErrorSpecialities(false);
+        // setErrorSpecialities(false);
         const res = await fetch(
           "http://round5-online-booking-with-doctor-api.huma-volve.com/api/specialities",
           {
@@ -44,10 +102,9 @@ const Search = () => {
         if (!res.ok) throw new Error(`Specialities error: ${res.status}`);
         const data = await res.json();
         setSpecialities(data.data);
-      } catch (err) {
-        setErrorSpecialities(true);
-      } finally {
         setLoadingSpecialities(false);
+      } catch (err) {
+        setLoadingSpecialities(true);
       }
     };
 
@@ -66,39 +123,37 @@ const Search = () => {
         if (!res.ok) throw new Error(`Doctors error: ${res.status}`);
         const data = await res.json();
         setDoctors(data.data);
-      } catch (err) {
-        setErrorDoctors(err instanceof Error ? err.message : "Unknown error");
-      } finally {
         setLoadingDoctors(false);
+      } catch (err) {
+        setLoadingDoctors(true);
       }
     };
 
     fetchSpecialities();
     fetchDoctors();
-    setFilteredDoctors(doctors);
   }, []);
 
-  // Input handler
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Clear any previous timer
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
 
-    // Start new debounce
     debounceRef.current = setTimeout(() => {
-      if (!value.trim()) {
-        setFilteredDoctors(doctors);
-      } else {
-        const results = doctors.filter((doc) =>
-          doc.name?.toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredDoctors(results);
-      }
-    }, 500); // 500ms debounce
+      dispatch({ type: "SET_SEARCH", payload: value });
+    }, 500); // debounce 500ms
   };
+
+  const [filterState, dispatch] = useReducer(filterReducer, initialFilterState);
+
+  const filteredDoctors = useMemo(() => {
+    return filterDoctors(doctors, filterState);
+  }, [doctors, filterState]);
+
+  function filterBtnHandler() {}
 
   return (
     <div>
@@ -218,7 +273,13 @@ const Search = () => {
           <div className="flex-col flex gap-3 w-fit">
             <p className="text-sm mb-1">Available Date</p>
             <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
-              <input type="checkbox" className="peer sr-only" />
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                onChange={() =>
+                  dispatch({ type: "TOGGLE_DAY", payload: "today" })
+                }
+              />
               <span
                 className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
            peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
@@ -228,7 +289,13 @@ const Search = () => {
               Today
             </label>
             <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
-              <input type="checkbox" className="peer sr-only" />
+              <input
+                type="checkbox"
+                className="peer sr-only"
+                onChange={() =>
+                  dispatch({ type: "TOGGLE_DAY", payload: "tomorrow" })
+                }
+              />
               <span
                 className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
            peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
@@ -307,7 +374,7 @@ const Search = () => {
                 {loadingSpecialities
                   ? Array.from({ length: 4 }).map((_, idx) => (
                       <SwiperSlide key={idx} className="!w-fit">
-                        <div className="bg-gray-200 animate-pulse"></div>
+                        <div className="bg-gray-200 h-10 w-28 animate-pulse rounded-[8px]"></div>
                       </SwiperSlide>
                     ))
                   : specialities.map((speciality) => (
