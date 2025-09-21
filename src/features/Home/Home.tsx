@@ -10,7 +10,7 @@ import {
 
 const Home = () => {
   return (
-    <>
+    <div className="flex flex-col gap-[100px]">
       <SectionHero />
       <SectionHow />
       <SectionMap />
@@ -18,7 +18,7 @@ const Home = () => {
       <SectionReviews />
       <SectionFAQ />
       <SectionApp />
-    </>
+    </div>
   );
 };
 
