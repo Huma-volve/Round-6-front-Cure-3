@@ -29,6 +29,7 @@ const Notification = () => {
     {data?.data?.length === 0 ? (
         <Empty />
       ) : (
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data?.data?.map((notification: any) => {
           return (
             <div key={notification.id}>
