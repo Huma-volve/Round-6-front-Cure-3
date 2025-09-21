@@ -19,7 +19,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
 
   //TODO check the route with alaa (booking task)
   function bookAppointmentHandler() {
-    navigate(`/booking/${doctor.availability_id}`);
+    navigate(`/my-bookings/${doctor.availability_id}`);
   }
 
   return (
