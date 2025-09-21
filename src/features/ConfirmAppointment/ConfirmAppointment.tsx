@@ -16,12 +16,13 @@ import { getSlots } from "@/api/Appointment/Appointment";
 import Loading from "@/Layout/Common/Loading";
 import { getDoctorDetails } from "@/api/DoctorDetails/DoctorDetails";
 import type { DoctorDetailsResponse } from "@/types/DoctorDetails/DoctorDetails";
+import { getBooking } from "@/api/Appointment/Book/Book";
 
 const ConfirmAppointment = () => {
   const params = useParams();
   const [showDay, setShowDay] = useState(false);
-  const [activeBtn, setActiveBtn] = useState<string | null>(null);
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [activeBtn, setActiveBtn] = useState<string | null>(null); // الوقت فقط
+  const [selectedDay, setSelectedDay] = useState<string | null>(null); // التاريخ فقط
   const [currentMonth, setCurrentMonth] = useState(new Date(2025, 8));
 
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ const ConfirmAppointment = () => {
     currentMonth.getMonth() + 1,
     0
   ).getDate();
+
   const startDay = new Date(
     currentMonth.getFullYear(),
     currentMonth.getMonth(),
@@ -84,6 +86,13 @@ const ConfirmAppointment = () => {
     weeks.push(week);
   }
 
+  function bookAppointment() {
+    if (!selectedDay || !activeBtn || !params.id) return;
+
+    getBooking(selectedDay, activeBtn, Number(params.id));
+    navigate(`/pay`);
+  }
+
   const monthName = currentMonth.toLocaleString("default", { month: "long" });
 
   return (
@@ -95,6 +104,7 @@ const ConfirmAppointment = () => {
       />
 
       <main className="mt-7 w-[90%] mx-auto">
+        {/* Doctor Info */}
         <section>
           <div className="info flex gap-4 items-center hover:scale-[1.02] transition-transform duration-200">
             <img
@@ -114,6 +124,7 @@ const ConfirmAppointment = () => {
           </div>
         </section>
 
+        {/* Select Day */}
         <section className="mt-5">
           <h2 className="font-semibold text-lg">Select A Day</h2>
           <div className="flex justify-between mt-3 mx-auto items-center">
@@ -187,24 +198,26 @@ const ConfirmAppointment = () => {
                   {weeks.map((week, i) => (
                     <tr key={i}>
                       {week.map((day, j) => {
-                        if (day === null) {
-                          return <td key={j} className="p-3"></td>;
-                        }
+                        if (day === null) return <td key={j} className="p-3"></td>;
+
                         const dateISO = new Date(
                           currentMonth.getFullYear(),
                           currentMonth.getMonth(),
                           day
-                        )
-                          .toISOString()
-                          .split("T")[0];
+                        ).toLocaleDateString("en-CA"); // YYYY-MM-DD
+
+                        const isAvailable = slots.some(slot => slot.date === dateISO);
+
                         return (
                           <td
                             key={j}
-                            onClick={() => setSelectedDay(dateISO)}
+                            onClick={() => isAvailable && setSelectedDay(dateISO)}
                             className={`p-3 rounded-3xl cursor-pointer transition-colors duration-200 ${
                               selectedDay === dateISO
                                 ? "bg-Background-Primary-Lightest"
-                                : "hover:bg-Background-Primary-Lightest"
+                                : isAvailable
+                                ? "hover:bg-Background-Primary-Lightest"
+                                : "opacity-30 cursor-not-allowed"
                             }`}
                           >
                             {day}
@@ -219,9 +232,9 @@ const ConfirmAppointment = () => {
           )}
         </section>
 
+        {/* Select Time */}
         <section className="mt-6">
           <h2 className="font-semibold text-lg">Select A Time</h2>
-
           {!isSlotsLoading && selectedDay && (
             <div className="mt-3">
               {selectedDaySlots.length > 0 ? (
@@ -231,11 +244,9 @@ const ConfirmAppointment = () => {
                     return (
                       <Button
                         key={i}
-                        onClick={() =>
-                          setActiveBtn(`${slot.date}-${formattedTime}`)
-                        }
+                        onClick={() => setActiveBtn(formattedTime)}
                         className={`rounded-2xl py-2 text-sm transition-colors ${
-                          activeBtn === `${slot.date}-${formattedTime}`
+                          activeBtn === formattedTime
                             ? "bg-Background-Primary-Defult hover:bg-Background-Primary-Defult text-white"
                             : "bg-Background-Primary-Lightest hover:bg-Background-Primary-Lightest"
                         }`}
@@ -252,6 +263,7 @@ const ConfirmAppointment = () => {
           )}
         </section>
 
+        {/* Price & Continue */}
         <section className="mt-6">
           <div className="mt-3">
             <div className="flex justify-between items-center w-full">
@@ -270,13 +282,14 @@ const ConfirmAppointment = () => {
               state={{
                 doctor: doctorData?.data,
                 date: selectedDay,
-                time: activeBtn ? activeBtn.split("-")[1] : null,
+                time: activeBtn,
               }}
             >
               <Button
                 variant="default"
                 className="w-full cursor-pointer rounded-2xl p-6 mt-5 text-Background-Neutral-Lightest bg-Background-Primary-Defult border border-Background-Primary-Defult transition-all hover:text-Background-Primary-Defult duration-200 mb-7"
                 disabled={!selectedDay || !activeBtn}
+                onClick={() => bookAppointment()}
               >
                 Continue To Pay
               </Button>

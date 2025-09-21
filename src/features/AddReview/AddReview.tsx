@@ -17,9 +17,6 @@ const AddReview = () => {
 
   function handleSubmit() {
     addReview({ rating, review })
-    .then(() => {
-     navigate("/doctorDetails/:id")
-    })
   }
 
   return (
