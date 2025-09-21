@@ -29,6 +29,7 @@ import VisaVersion from "./features/VisaVersion/VisaVersion";
 import Layout from "./Layout/Layout/Layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NotFound from "./Layout/Common/NotFound";
+import AddReview from "./features/AddReview/AddReview";
 
 
 
@@ -67,6 +68,7 @@ const router = createBrowserRouter([
       { path: "/pay", element: <Pay /> },
       { path: "/paymentMethod", element: <PaymentMethod /> },
       { path: "/profile", element: <Profile /> },
+      { path: "/AddReview", element: <AddReview /> },
       { path: "/search", element: <Search /> },
       { path: "/searchByLocation", element: <SearchByLocation /> },
       { path: "/settings", element: <Settings /> },

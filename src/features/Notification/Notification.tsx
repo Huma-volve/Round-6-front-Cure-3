@@ -1,9 +1,9 @@
-import { FaArrowLeft } from "react-icons/fa6";
 import { useQuery } from "@tanstack/react-query";
 import { getNotifications } from "../../api/Notifications/Notifications";
 import Empty from "./Empty";
 import { useNavigate } from "react-router-dom";
 import Loading from "@/Layout/Common/Loading";
+import Header from "@/lib/Header/Header";
 
 const Notification = () => {
   const navigator = useNavigate()
@@ -14,18 +14,14 @@ const Notification = () => {
   })
 
   if(isLoading) {
-    return <h1><Loading /></h1>
+    return <Loading />
   }
   if(error) {
-    return <h1>error...</h1>
+    return <h1>Error...</h1>
   }
 
   return <>
-  <header className="flex items-center justify-between cursor-pointer mt-3">
-    <FaArrowLeft size={25} onClick={() => navigator("/")}/>
-    <h1 className="text-2xl font-semibold">Notifications</h1>
-    <p></p>
-  </header>
+  <Header title="Notifications" showBack onBack={() => navigator("/")}/>
 
     <h2 className="mt-10 text-Background-Primary-Defult">Today</h2>
   <main className="mt-2">
