@@ -9,6 +9,7 @@ const Favorites = () => {
   const [empty, setEmpty] = useState(true);
 
   useEffect(() => {
+    const TOKEN = localStorage.getItem("token") || "";
     const fetchFavorites = async () => {
       setEmpty(false);
       setLoading(true);
@@ -18,8 +19,7 @@ const Favorites = () => {
           "http://round5-online-booking-with-doctor-api.huma-volve.com/api/favourites/doctors",
           {
             headers: {
-              Authorization:
-                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+              Authorization: `Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3`,
             },
           }
         );
@@ -34,8 +34,8 @@ const Favorites = () => {
             `http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors/${fav.favouritable.id}`,
             {
               headers: {
-                Authorization:
-                  "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+                Authorization: `Bearer ${TOKEN}`,
+                Accept: "application/json",
               },
             }
           );

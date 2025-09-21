@@ -122,17 +122,17 @@ const Search = () => {
   const [loadingDoctors, setLoadingDoctors] = useState(true);
 
   useEffect(() => {
+    const TOKEN = localStorage.getItem("token") || "";
     const fetchSpecialities = async () => {
       try {
         setLoadingSpecialities(true);
         // setErrorSpecialities(false);
         const res = await fetch(
-          "http://round5-online-booking-with-doctor-api.huma-volve.com/api/specialities",
+          "https://round5-online-booking-with-doctor-api.huma-volve.com/api/specialities",
           {
             headers: {
+              Authorization: `Bearer ${TOKEN}`,
               Accept: "application/json",
-              Authorization:
-                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
             },
           }
         );
@@ -142,6 +142,7 @@ const Search = () => {
         setLoadingSpecialities(false);
       } catch (err) {
         setLoadingSpecialities(true);
+        navigate("/signup");
       }
     };
 
@@ -151,9 +152,8 @@ const Search = () => {
           "http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
           {
             headers: {
+              Authorization: `Bearer ${TOKEN}`,
               Accept: "application/json",
-              Authorization:
-                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
             },
           }
         );
