@@ -43,12 +43,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/favorites", element: <Favorites /> },
       { path: "/search", element: <Search /> },
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signinEmail", element: <SignInWithEmail /> },
-      { path: "/signinNumber", element: <SignInWithNumber /> },
-      { path: "/signup", element: <SignUp /> },
     ],
-    children: [{ path: "/", element: <Home /> }],
   },
   {
     // element: (
@@ -58,7 +53,7 @@ const router = createBrowserRouter([
     // ),
     children: [
       { path: "/privacyPolicy", element: <PrivacyPolicy /> },
-      { path: "/bookings", element: <Booking /> },
+      { path: "/my-bookings", element: <Booking /> },
       { path: "/confirmAppointment/:id", element: <ConfirmAppointment /> },
       { path: "/doctorDetails/:id", element: <DoctorDetails /> },
       { path: "/doctorsNearYou", element: <DoctorsNearYou /> },

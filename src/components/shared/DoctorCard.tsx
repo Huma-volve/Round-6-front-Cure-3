@@ -17,7 +17,6 @@ function formateTime(timeString: string): string {
 const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   const navigate = useNavigate();
 
-  //TODO check the route with alaa (booking task)
   function bookAppointmentHandler() {
     navigate(`/my-bookings/${doctor.availability_id}`);
   }
