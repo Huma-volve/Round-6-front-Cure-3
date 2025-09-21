@@ -7,6 +7,14 @@ import type { Doctor } from "@/types/Doctor";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { DoctorCard } from "@/components/shared";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type FilterState = {
   days: string[]; // [today, tomorrow]
@@ -191,55 +199,173 @@ const Search = () => {
           onChange={inputHandler}
           className="col-span-3 lg:col-span-1 lg:order-2 py-4 px-6 border-[1px] border-b-Text-Neutral-Darker text-base rounded-[10px]"
         />
-        <Button
-          className="lg:order-1"
-          variant="ghost"
-          onClick={filterBtnHandler}
-        >
-          <svg
-            width="21"
-            height="20"
-            viewBox="0 0 21 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M8.41663 11.6666C9.79734 11.6666 10.9166 12.7859 10.9166 14.1666C10.9166 15.5474 9.79734 16.6666 8.41663 16.6666C7.03591 16.6666 5.91663 15.5474 5.91663 14.1666C5.91663 12.7859 7.03591 11.6666 8.41663 11.6666Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M12.5834 3.33331C11.2027 3.33331 10.0834 4.4526 10.0834 5.83331C10.0834 7.21402 11.2027 8.33331 12.5834 8.33331C13.9641 8.33331 15.0834 7.21402 15.0834 5.83331C15.0834 4.4526 13.9641 3.33331 12.5834 3.33331Z"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M13 14.1321L18.8333 14.1321"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <path
-              d="M8 5.79874L2.16667 5.79874"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <path
-              d="M2.16663 14.1321L3.83329 14.1321"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-            <path
-              d="M18.8334 5.79874L17.1667 5.79874"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
-          </svg>
-          Filter
-        </Button>
+        <Dialog>
+          <DialogTrigger className="w-fit !py-3 !px-6 text-Text-Neutral-Darker border-Text-Neutral-Darker border-[1px] rounded-[10px] flex flex-row gap-2 items-center hover:text-Background-Primary-Defult hover:border-Background-Primary-Defult">
+            {/* <Button
+              className="lg:order-1"
+              variant="ghost"
+              // onClick={filterBtnHandler}
+            >
+            </Button> */}
+            <svg
+              width="21"
+              height="20"
+              viewBox="0 0 21 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M8.41663 11.6666C9.79734 11.6666 10.9166 12.7859 10.9166 14.1666C10.9166 15.5474 9.79734 16.6666 8.41663 16.6666C7.03591 16.6666 5.91663 15.5474 5.91663 14.1666C5.91663 12.7859 7.03591 11.6666 8.41663 11.6666Z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M12.5834 3.33331C11.2027 3.33331 10.0834 4.4526 10.0834 5.83331C10.0834 7.21402 11.2027 8.33331 12.5834 8.33331C13.9641 8.33331 15.0834 7.21402 15.0834 5.83331C15.0834 4.4526 13.9641 3.33331 12.5834 3.33331Z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path
+                d="M13 14.1321L18.8333 14.1321"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M8 5.79874L2.16667 5.79874"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M2.16663 14.1321L3.83329 14.1321"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+              <path
+                d="M18.8334 5.79874L17.1667 5.79874"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+            Filter
+          </DialogTrigger>
+          <DialogContent className="bg-white rounded-[10px]">
+            <DialogHeader>
+              <DialogTitle>Filter results</DialogTitle>
+              <DialogDescription className="hidden">
+                Filter your results
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-4 mb-20 w-[235px] ">
+              <div className="flex-col flex gap-3 w-fit">
+                <p className="text-sm mb-1">Available Date</p>
+                <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+                  <input
+                    type="checkbox"
+                    className="peer sr-only"
+                    onChange={() =>
+                      dispatch({ type: "TOGGLE_DAY", payload: "today" })
+                    }
+                  />
+                  <span
+                    className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
+           peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
+                  >
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  Today
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+                  <input
+                    type="checkbox"
+                    className="peer sr-only"
+                    onChange={() =>
+                      dispatch({ type: "TOGGLE_DAY", payload: "tomorrow" })
+                    }
+                  />
+                  <span
+                    className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
+           peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
+                  >
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  Tomorrow
+                </label>
+              </div>
+
+              <div
+                role="radiogroup"
+                aria-label="Recommendations"
+                className="flex-col flex gap-3 w-fit"
+              >
+                <p className="text-sm mb-1">Sort</p>
+                <label className="flex flex-shrink-0 items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+                  <input
+                    type="radio"
+                    name="recommendation"
+                    className="peer sr-only"
+                    value="most-recommended"
+                    checked={filterState.sortBy === "most-recommended"}
+                    onChange={() =>
+                      dispatch({
+                        type: "SET_SORT",
+                        payload: "most-recommended",
+                      })
+                    }
+                  />
+                  <span
+                    className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
+           peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
+                  >
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  <span className="w-fit">Most recommended</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+                  <input
+                    type="radio"
+                    name="recommendation"
+                    className="peer sr-only"
+                    value="low-to-high"
+                    checked={filterState.sortBy === "low-to-high"}
+                    onChange={() =>
+                      dispatch({ type: "SET_SORT", payload: "low-to-high" })
+                    }
+                  />
+                  <span
+                    className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
+           peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
+                  >
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  Price Low to high
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-base text-Text-Neutral-Darker">
+                  <input
+                    type="radio"
+                    name="recommendation"
+                    className="peer sr-only"
+                    value="high-to-low"
+                    checked={filterState.sortBy === "high-to-low"}
+                    onChange={() =>
+                      dispatch({ type: "SET_SORT", payload: "high-to-low" })
+                    }
+                  />
+                  <span
+                    className="w-5 h-5 border-2 border-Text-Neutral-Darker rounded-[4px] flex items-center justify-center
+           peer-checked:bg-Background-Primary-Defult peer-checked:border-Background-Primary-Defult"
+                  >
+                    <Check className="w-3 h-3 text-white" />
+                  </span>
+                  Price High to low
+                </label>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         <Button
           className="lg:order-3"
           variant="ghost"
