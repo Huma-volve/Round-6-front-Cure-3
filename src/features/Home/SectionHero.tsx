@@ -11,7 +11,7 @@ const SectionHero = () => {
   const navigate = useNavigate();
 
   function startHandler() {
-    navigate("/signin");
+    navigate("/signup");
   }
 
   function bookHandler() {
