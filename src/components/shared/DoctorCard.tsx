@@ -18,7 +18,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   const navigate = useNavigate();
 
   function bookAppointmentHandler() {
-    navigate(`/my-bookings/${doctor.availability_id}`);
+    navigate(`/doctorDetails/${doctor.availability_id}`);
   }
 
   return (
