@@ -16,7 +16,7 @@ import Pay from "./features/Pay/Pay";
 import PaymentMethod from "./features/PaymentMethod/PaymentMethod";
 import Profile from "./features/Profile/Profile";
 import Search from "./features/Search/Search";
-import SearchByLocation from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
+// import SearchByLocation from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 import Settings from "./features/Settings/Settings";
 import SignInWithEmail from "./features/SignInWithYourEmail/SignInWithYourEmail";
 import SignUp from "./features/SignUp/SignUp";
@@ -83,7 +83,7 @@ const router = createBrowserRouter([
       { path: "/editProfile", element: <EditProfile /> },
       { path: "/passwordResetFlow", element: <PasswordResetFlow /> },
       {path: "/map/search" , element: <SearchMap/>},
-      { path: "/visa", element: <VisaVersion /> },
+      // { path: "/visa", element: <VisaVersion /> },
     ],
   },
   { path: "/signinEmail", element: <SignInWithEmail /> },
