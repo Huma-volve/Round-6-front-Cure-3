@@ -28,6 +28,8 @@ import TheMap from "./features/TheMap/TheMap";
 import VisaVersion from "./features/VisaVersion/VisaVersion";
 // import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
+import SearchMap from "./features/TheMap/SearchMap";
+import SearchByYourLocationDoctors from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +52,7 @@ const router = createBrowserRouter([
     // ),
     children: [
       { path: "/privacyPolicy", element: <PrivacyPolicy /> },
-      { path: "/booking", element: <Booking /> },
+      { path: "/my-bookings", element: <Booking /> },
       { path: "/confirmAppointment", element: <ConfirmAppointment /> },
       { path: "/doctorDetails/:id", element: <DoctorDetails /> },
       { path: "/doctorsNearYou", element: <DoctorsNearYou /> },
@@ -65,10 +67,11 @@ const router = createBrowserRouter([
       { path: "/paymentMethod", element: <PaymentMethod /> },
       { path: "/profile", element: <Profile /> },
       { path: "/search", element: <Search /> },
-      { path: "/searchByLocation", element: <SearchByLocation /> },
+      { path: "/searchByLocation", element: <SearchByYourLocationDoctors /> },
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
       { path: "/map", element: <TheMap /> },
+      {path: "/map/search" , element: <SearchMap/>},
       { path: "/visa", element: <VisaVersion /> },
     ],
   },
