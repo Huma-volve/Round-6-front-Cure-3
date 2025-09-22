@@ -33,6 +33,8 @@ import ForgotPassword from "./features/SignInWithYourEmail/ForgotPassword";
 import VerifyOtp from "./features/SignInWithYourEmail/VerifyOtp";
 import ResetPassword from "./features/SignInWithYourEmail/ResetPassword";
 import { Toaster } from "react-hot-toast";
+import SearchMap from "./features/TheMap/SearchMap";
+import SearchByYourLocationDoctors from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 
 const router = createBrowserRouter([
   {
@@ -70,10 +72,11 @@ const router = createBrowserRouter([
 
       { path: "/AddReview", element: <AddReview /> },
       { path: "/search", element: <Search /> },
-      { path: "/searchByLocation", element: <SearchByLocation /> },
+      { path: "/searchByLocation", element: <SearchByYourLocationDoctors /> },
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
       { path: "/map", element: <TheMap /> },
+      {path: "/map/search" , element: <SearchMap/>},
       { path: "/visa", element: <VisaVersion /> },
     ],
   },
