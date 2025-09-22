@@ -36,6 +36,8 @@ import UserContextProvider from "./context/Mohamed/UserContext";
 import { Toaster } from "react-hot-toast";
 import AddNewCard from "./features/AddNewCard/AddNewCard";
 import PasswordResetFlow from "./features/Settings/PasswordResetFlow";
+import SearchMap from "./features/TheMap/SearchMap";
+import SearchByYourLocationDoctors from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 
 const router = createBrowserRouter([
   {
@@ -73,13 +75,15 @@ const router = createBrowserRouter([
 
       { path: "/AddReview", element: <AddReview /> },
       { path: "/search", element: <Search /> },
-      { path: "/searchByLocation", element: <SearchByLocation /> },
+      { path: "/searchByLocation", element: <SearchByYourLocationDoctors /> },
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
       { path: "/map", element: <TheMap /> },
       { path: "/addNewCard", element: <AddNewCard /> },
       { path: "/editProfile", element: <EditProfile /> },
       { path: "/passwordResetFlow", element: <PasswordResetFlow /> },
+      {path: "/map/search" , element: <SearchMap/>},
+      { path: "/visa", element: <VisaVersion /> },
     ],
   },
   { path: "/signinEmail", element: <SignInWithEmail /> },
