@@ -12,12 +12,12 @@ const SectionTopDoctors = () => {
     const fetchDoctors = async () => {
       setLoading(true);
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
+          "https://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
           {
             headers: {
-              Authorization:
-                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+              Authorization: `Bearer ${token}`,
             },
           }
         );

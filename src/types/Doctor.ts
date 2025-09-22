@@ -1,5 +1,6 @@
 export type Doctor = {
   doctor_profile_id: number;
+  doctor_id: number;
   about: string;
   experience_years: number;
   price_per_hour: string;
@@ -21,4 +22,12 @@ export type Doctor = {
   end_time: string;
   average_rating: string;
   reviews_count: number;
+  availability: Availability[];
 };
+
+export interface Availability {
+  availability_id: number;
+  day: string;
+  start_time: string;
+  end_time: string;
+}

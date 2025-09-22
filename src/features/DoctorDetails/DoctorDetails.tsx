@@ -22,7 +22,9 @@ const RatingStars = ({ rating }: { rating: number }) => {
         <FaStar
           key={i}
           size={22}
-          className={i < Math.round(rating) ? "text-yellow-400" : "text-gray-300"}
+          className={
+            i < Math.round(rating) ? "text-yellow-400" : "text-gray-300"
+          }
         />
       ))}
     </div>
@@ -44,20 +46,42 @@ const DoctorDetails = () => {
     refetchOnWindowFocus: false,
   });
 
-  if (isLoading) return <div className="text-center mt-10"><Loading /></div>;
-  if (error) return <div className="text-center mt-10 text-red-500">Error: {(error as Error).message}</div>;
+  if (isLoading)
+    return (
+      <div className="text-center mt-10">
+        <Loading />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="text-center mt-10 text-red-500">
+        Error: {(error as Error).message}
+      </div>
+    );
 
   return (
     <>
-      <Header title="Doctor Details" showFavorite onBack={() => navigator("/")}/>
+      <Header
+        title="Doctor Details"
+        showFavorite
+        onBack={() => navigator("/")}
+      />
 
       <main className="w-[90%] mx-auto mt-5 md:w-[70%] lg:w-[60%]">
         <section>
           <div className="info flex gap-4 items-center hover:scale-[1.02] transition-transform duration-200">
-            <img src={profile} alt="profile" className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover" />
+            <img
+              src={profile}
+              alt="profile"
+              className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover"
+            />
             <div>
-              <h1 className="font-bold text-lg md:text-xl">{data?.data?.name}</h1>
-              <p className="text-Text-Neutral-Darker">{data?.data?.specialty_name_en}</p>
+              <h1 className="font-bold text-lg md:text-xl">
+                {data?.data?.name}
+              </h1>
+              <p className="text-Text-Neutral-Darker">
+                {data?.data?.specialty_name_en}
+              </p>
               <p className="text-Text-Neutral-Darker">No Location</p>
             </div>
           </div>
@@ -90,7 +114,9 @@ const DoctorDetails = () => {
           <h2 className="font-semibold mb-3 text-lg">About me</h2>
           <p className="text-Text-Neutral-Darker leading-relaxed hover:text-Background-Primary-Defult transition-colors duration-200">
             {data?.data?.specialty_description}{" "}
-            <span className="text-Background-Primary-Defult cursor-pointer hover:underline">Read more</span>
+            <span className="text-Background-Primary-Defult cursor-pointer hover:underline">
+              Read more
+            </span>
           </p>
         </section>
 
@@ -120,23 +146,32 @@ const DoctorDetails = () => {
               </p>
             </div>
           </div>
-
-
         </section>
 
         {reviews?.data?.map((review) => (
-          <section key={review.id} className="mt-8 hover:bg-Background-Neutral-Lightest/10 p-4 rounded-xl transition-colors duration-200">
+          <section
+            key={review.id}
+            className="mt-8 hover:bg-Background-Neutral-Lightest/10 p-4 rounded-xl transition-colors duration-200"
+          >
             <div className="footer flex gap-4 items-center justify-between">
               <div className="flex items-center">
-                <img src={profile} className="w-12 h-12 rounded-full" alt="profile" />
+                <img
+                  src={profile}
+                  className="w-12 h-12 rounded-full"
+                  alt="profile"
+                />
                 <div className="ms-4">
                   <h1 className="font-semibold">{review.user?.name}</h1>
-                  <p className="text-Text-Secondary-Defult">{dayjs(review.created_at).fromNow()}</p>
+                  <p className="text-Text-Secondary-Defult">
+                    {dayjs(review.created_at).fromNow()}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <RatingStars rating={review.rating} />
-                <span className="font-bold text-yellow-400">{review.rating}</span>
+                <span className="font-bold text-yellow-400">
+                  {review.rating}
+                </span>
               </div>
             </div>
             <p className="mt-4 text-Text-Neutral-Darker leading-relaxed">
@@ -148,17 +183,23 @@ const DoctorDetails = () => {
         <section className="mt-8">
           <div className="flex items-center justify-between">
             <p className="text-Background-Neutral-Darker">
-              <span className="font-semibold text-Background-Secondary-Defult text-xl">Price</span>/Hour
+              <span className="font-semibold text-Background-Secondary-Defult text-xl">
+                Price
+              </span>
+              /Hour
             </p>
-            <p className="text-Text-Semantic-Error-Defult text-lg">{data?.data?.price_per_hour}$</p>
+            <p className="text-Text-Semantic-Error-Defult text-lg">
+              {data?.data?.price_per_hour}$
+            </p>
           </div>
           <NavLink to={`/confirmAppointment/${data?.data?.doctor_profile_id}`}>
-          <Button
-            variant="default"
-            onClick={() => navigator("/confirmAppointment")}
-            className="w-full cursor-pointer rounded-2xl p-6 mt-5 text-Background-Neutral-Lightest bg-Background-Primary-Defult hover:bg-transparent border border-Background-Primary-Defult transition-all hover:text-Background-Primary-Defult duration-200 mb-7">
-            Book Appointment
-          </Button>
+            <Button
+              variant="default"
+              onClick={() => navigator("/confirmAppointment")}
+              className="w-full cursor-pointer rounded-2xl p-6 mt-5 text-Background-Neutral-Lightest bg-Background-Primary-Defult hover:bg-transparent border border-Background-Primary-Defult transition-all hover:text-Background-Primary-Defult duration-200 mb-7"
+            >
+              Book Appointment
+            </Button>
           </NavLink>
         </section>
       </main>

@@ -1,7 +1,9 @@
 import map from "@/assets/images/map.png";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const SectionMap = () => {
+  const navigate = useNavigate();
   return (
     <section className="flex justify-between items-center gap-12 lg:gap-4 lg:flex-row flex-col">
       <div>
@@ -14,7 +16,11 @@ const SectionMap = () => {
           Allow location access or choose your city to instantly discover
           trusted doctors and clinics around you—quick, easy, and local.
         </p>
-        <Button variant="outline" className="flex gap-2">
+        <Button
+          onClick={() => navigate("/searchByLocation")}
+          variant="outline"
+          className="flex gap-2"
+        >
           <svg
             width="20"
             height="20"

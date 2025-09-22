@@ -73,8 +73,8 @@ const Settings = () => {
           try {
             const res = await deleteAccount({ password });
             toast.success(res.data.message);
-
-            navigate("/login");
+            navigate("/signup");
+            localStorage.removeItem("token");
           } catch (error: unknown) {
             const message =
               error instanceof Error

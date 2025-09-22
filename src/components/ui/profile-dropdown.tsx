@@ -10,7 +10,6 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,12 +19,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ProfileImage from "../../assets/images/profileImage.png";
 import LocationIcons from "../../assets/icons/location-Profile.svg";
+import { useAuth } from "@/context/Mohamed/useAuth";
 
 export default function ProfileDropdown({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
+  const { logout } = useAuth();
+
+  const handelLogout = () => {
+    // setUser(null);
+    logout();
+    // localStorage.removeItem("token");
+    // delete api.defaults.headers.Authorization;
+  };
 
   return (
     <div className={className} {...props}>
@@ -53,7 +61,10 @@ export default function ProfileDropdown({
         >
           {/* Profile Section */}
           <div className="flex items-center justify-between gap-4 rounded-lg rounded-l-2xl mb-4 hover:bg-gray-200">
-            <NavLink to={"/profile"} className="flex items-center gap-4">
+            <NavLink
+              to={"/profile"}
+              className="flex items-center gap-4 cursor-pointer"
+            >
               <div className="w-12 h-12 rounded-full overflow-hidden">
                 <img
                   src={user?.avatar ? user?.avatar : ProfileImage}
@@ -91,7 +102,7 @@ export default function ProfileDropdown({
             <DropdownMenuItem asChild>
               <NavLink
                 to="/paymentMethod"
-                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 "
+                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <CreditCard className="w-5 h-5 text-gray-700" />
@@ -104,7 +115,7 @@ export default function ProfileDropdown({
             <DropdownMenuItem asChild>
               <NavLink
                 to="/settings"
-                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 "
+                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <Settings className="w-5 h-5 text-gray-700" />
@@ -117,7 +128,7 @@ export default function ProfileDropdown({
             <DropdownMenuItem asChild>
               <NavLink
                 to="/privacyPolicy"
-                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 "
+                className="flex items-center justify-between w-full p-3 rounded-lg transition-all hover:bg-gray-200 cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <FileText className="w-5 h-5 text-gray-700" />
@@ -132,8 +143,8 @@ export default function ProfileDropdown({
             <DropdownMenuItem asChild>
               <button
                 type="button"
-                className="flex items-center gap-3 w-full p-3 rounded-lg transition-all text-red-500 hover:text-red-500"
-                onClick={() => setUser(null)}
+                className="flex items-center gap-3 w-full p-3 rounded-lg transition-all text-red-500 hover:text-red-500 focus:text-red-500 cursor-pointer"
+                onClick={handelLogout}
               >
                 <LogOut className="w-5 h-5" />
                 <span>Log out</span>

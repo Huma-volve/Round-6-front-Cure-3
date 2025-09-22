@@ -1,15 +1,14 @@
-
-import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { Menu, X, Bell, Search } from "lucide-react";
 import { Avatar } from "@/components/ui/avatar";
 import logo from "@/assets/icons/logo.png";
-//import { UserContext } from "@/context/UserContext";
-import { NavLink } from "react-router-dom";
 import ProfileDropdown from "@/components/ui/profile-dropdown";
+import { useAuth } from "@/context/Mohamed/useAuth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isLogin } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -44,6 +43,7 @@ const Navbar = () => {
             Booking
           </NavLink>
         </div>
+
         {/* Right side */}
         <div className="flex items-center gap-3">
           {/* Search */}
@@ -52,17 +52,33 @@ const Navbar = () => {
           </button>
 
           {/* Notifications */}
-          <button onClick={() => navigate("/notifications")}>
-            <Bell className="w-5 h-5 text-gray-700 hover:text-primary" />
-          </button>
+          {isLogin && (
+            <button onClick={() => navigate("/notifications")}>
+              <Bell className="w-5 h-5 text-gray-700 hover:text-primary" />
+            </button>
+          )}
 
-          {/* Profile */}
-          <Avatar
-            className="w-8 h-8 cursor-pointer"
-            // onClick={() => navigate("/profile")}
-          >
-            <ProfileDropdown />
-          </Avatar>
+          {/* Profile or Auth buttons */}
+          {isLogin ? (
+            <Avatar className="w-8 h-8 cursor-pointer">
+              <ProfileDropdown />
+            </Avatar>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                className="bg-transparent border border-Background-Primary-Defult text-Text-Primary-Defult px-4 py-1 rounded hover:bg-Background-Primary-Defult hover:text-white transition-all duration-200"
+                onClick={() => navigate("/signinEmail")}
+              >
+                Sign in
+              </button>
+              <button
+                className="bg-Background-Primary-Defult border border-Background-Primary-Defult text-white px-4 py-1 rounded hover:bg-Background-Primary-Defult  transition-all duration-200"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
 
           {/* Mobile burger */}
           <div className="flex md:hidden items-center">
@@ -95,12 +111,29 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/bookings"
+            to="/my-bookings"
             onClick={() => setIsOpen(false)}
             className="text-gray-800 text-lg font-semibold hover:text-primary transition-colors"
           >
             Booking
           </Link>
+
+          {!isLogin && (
+            <div className="flex flex-col gap-3 mt-6">
+              <button
+                className="bg-transparent border border-Background-Primary-Defult text-Text-Primary-Defult px-4 py-1 rounded hover:bg-Background-Primary-Defult hover:text-white transition-all duration-200"
+                onClick={() => navigate("/signinEmail")}
+              >
+                Sign in
+              </button>
+              <button
+                className="bg-Background-Primary-Defult border border-Background-Primary-Defult text-white px-4 py-1 rounded hover:bg-Background-Primary-Defult  transition-all duration-200"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
       )}
     </nav>
