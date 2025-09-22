@@ -1,5 +1,4 @@
 import { Tag } from "@/components/shared";
-import React from "react";
 import {
   Accordion,
   AccordionContent,

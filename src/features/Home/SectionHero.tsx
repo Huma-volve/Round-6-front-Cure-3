@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const SectionHero = () => {
-  // TODO get the value from the context
   const isLogedIn = false;
   const navigate = useNavigate();
 

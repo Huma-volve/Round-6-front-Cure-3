@@ -22,17 +22,20 @@ import SignInWithEmail from "./features/SignInWithYourEmail/SignInWithYourEmail"
 import SignUp from "./features/SignUp/SignUp";
 import Specialties from "./features/Speciaties/Speciaties";
 import TheMap from "./features/TheMap/TheMap";
-import VisaVersion from "./features/VisaVersion/VisaVersion";
 // import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NotFound from "./Layout/Common/NotFound";
 import AddReview from "./features/AddReview/AddReview";
-
 import ForgotPassword from "./features/SignInWithYourEmail/ForgotPassword";
 import VerifyOtp from "./features/SignInWithYourEmail/VerifyOtp";
 import ResetPassword from "./features/SignInWithYourEmail/ResetPassword";
+import { EditProfile } from "./features/EditProfile/EditProfile";
+// import PasswordManagement from "./features/Settings/PasswordManagement";
+import UserContextProvider from "./context/Mohamed/UserContext";
 import { Toaster } from "react-hot-toast";
+import AddNewCard from "./features/AddNewCard/AddNewCard";
+import PasswordResetFlow from "./features/Settings/PasswordResetFlow";
 
 const router = createBrowserRouter([
   {
@@ -74,7 +77,9 @@ const router = createBrowserRouter([
       { path: "/settings", element: <Settings /> },
       { path: "/specialties", element: <Specialties /> },
       { path: "/map", element: <TheMap /> },
-      { path: "/visa", element: <VisaVersion /> },
+      { path: "/addNewCard", element: <AddNewCard /> },
+      { path: "/editProfile", element: <EditProfile /> },
+      { path: "/passwordResetFlow", element: <PasswordResetFlow /> },
     ],
   },
   { path: "/signinEmail", element: <SignInWithEmail /> },
@@ -90,7 +95,10 @@ const clint = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={clint}>
-      <RouterProvider router={router} />
+      <UserContextProvider>
+        <RouterProvider router={router} />
+        <Toaster />
+      </UserContextProvider>
       <Toaster position="top-right" />
     </QueryClientProvider>
   );

@@ -1,7 +1,5 @@
 const DoctorsNearYou = () => {
-  return (
-    <div>DoctorsNearYou</div>
-  )
-}
+  return <div>DoctorsNearYou</div>;
+};
 
-export default DoctorsNearYou
+export default DoctorsNearYou;

@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Bell, Search } from "lucide-react";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import logo from "@/assets/icons/logo.png";
 //import { UserContext } from "@/context/UserContext";
 import { NavLink } from "react-router-dom";
+import ProfileDropdown from "@/components/ui/profile-dropdown";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  //const { user } = useContext(UserContext); //
 
   return (
     <nav className="w-full shadow-sm bg-white">
@@ -33,14 +33,14 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to="/bookings"
+            to="/my-bookings"
             className={({ isActive }) =>
               `font-medium transition-colors ${
                 isActive ? "text-[#145DB8]" : "text-gray-700 hover:text-primary"
               }`
             }
           >
-            Bookings
+            Booking
           </NavLink>
         </div>
         {/* Right side */}
@@ -58,9 +58,9 @@ const Navbar = () => {
           {/* Profile */}
           <Avatar
             className="w-8 h-8 cursor-pointer"
-            onClick={() => navigate("/profile")}
+            // onClick={() => navigate("/profile")}
           >
-            <AvatarImage src={"https://i.pravatar.cc/100"} alt={"User"} />
+            <ProfileDropdown />
           </Avatar>
 
           {/* Mobile burger */}
@@ -98,7 +98,7 @@ const Navbar = () => {
             onClick={() => setIsOpen(false)}
             className="text-gray-800 text-lg font-semibold hover:text-primary transition-colors"
           >
-            Bookings
+            Booking
           </Link>
         </div>
       )}
