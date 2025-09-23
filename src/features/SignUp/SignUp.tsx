@@ -105,7 +105,7 @@ const SignUp: React.FC = () => {
                     as={Input}
                     name="name"
                     placeholder="Enter your name"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="name"
@@ -124,7 +124,7 @@ const SignUp: React.FC = () => {
                     type="email"
                     name="email"
                     placeholder="Enter your email"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="email"
@@ -142,7 +142,7 @@ const SignUp: React.FC = () => {
                     as={Input}
                     name="phoneNumber"
                     placeholder="Enter your phone number"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="phoneNumber"
@@ -161,7 +161,7 @@ const SignUp: React.FC = () => {
                     type="password"
                     name="password"
                     placeholder="Enter your password"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="password"
@@ -180,7 +180,7 @@ const SignUp: React.FC = () => {
                     type="password"
                     name="password_confirmation"
                     placeholder="Re-enter your password"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="password_confirmation"

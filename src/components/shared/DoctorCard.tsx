@@ -6,13 +6,7 @@ import { parse, format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import type { Doctor } from "@/types/Doctor";
 
-function formateTime(timeString: string): string {
-  // Parse "14:00:00" as a Date object
-  const parsed = parse(timeString, "HH:mm:ss", new Date());
 
-  // Format to "h:mma" (e.g., "2:00PM")
-  return format(parsed, "h:mma").toLowerCase(); // "2:00pm"
-}
 
 const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   const navigate = useNavigate();
@@ -43,8 +37,7 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
             <div className="flex items-center">
               <img className="mr-2" src={clock} alt="a clock" />{" "}
               <p>
-                {formateTime(doctor.start_time)} -{" "}
-                {formateTime(doctor.end_time)}
+                 {doctor.start_time.slice(0,5)}am - {doctor.end_time.slice(0,5)}pm
               </p>
             </div>
           </div>

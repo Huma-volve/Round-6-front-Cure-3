@@ -2,14 +2,21 @@ import { useEffect, useState } from "react"
 import { Clock4, Heart, Star } from "lucide-react";
 import doctorImage from "../../assets/images/84c1b0d51403f4f1d7e9bd56b7c704bb2bf992e9 (1).jpg"
 
+
+
+export interface Availability {
+  availability_id: number;
+  day: string;
+  start_time: string;
+  end_time: string;   
+}
 interface Doctor {
   doctor_profile_id: number;
   name: string;
   specialty_name_en: string;
   hospital_name: string;
-  start_time: string;
-  end_time: string;
   average_rating : string;
+  availability: Availability[];
  
 }
 interface DoctorCardProps {
@@ -50,7 +57,7 @@ export default function DoctorCard({doctor}: DoctorCardProps) {
             
                     <div className="flex items-center ml-4 font-medium">
                         <Clock4 className="text-gray-400 text-sm min-w-[20px] min-h-[20px] mr-1 " />
-                        <p>  {doctor.start_time.slice(0,5)}am - {doctor.end_time.slice(0,5)}pm </p>
+                        <p>  {doctor.availability[0].start_time.slice(0,5)}am - {doctor.availability[0].end_time.slice(0,5)}pm </p>
                     </div>
                  </div>
                     </div>

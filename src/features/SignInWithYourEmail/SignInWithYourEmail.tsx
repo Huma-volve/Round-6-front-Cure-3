@@ -81,7 +81,7 @@ const SignInWithEmail: React.FC = () => {
                     type="email"
                     name="email"
                     placeholder="Enter your email"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="email"
@@ -100,7 +100,7 @@ const SignInWithEmail: React.FC = () => {
                     type="password"
                     name="password"
                     placeholder="Enter your password"
-                    className="border border-gray-300 rounded-[8px]  p-2 w-full"
+                    className="border text-gray-500 text-lg border-gray-300 rounded-[8px]  p-2 w-full"
                   />
                   <ErrorMessage
                     name="password"
