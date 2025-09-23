@@ -51,7 +51,7 @@ const Profile = () => {
       });
 
       setUser(null);
-      navigate("/login");
+      navigate("/signinEmail");
     } catch (error: unknown) {
       console.error("Logout failed:", error);
       setUser(null);
@@ -117,7 +117,7 @@ const Profile = () => {
 
   return (
     <>
-      <div className="mt-10 px-4 max-w-6xl m-auto">
+      <div className="mt-10 px-4 max-w-6xl m-auto min-h-screen">
         <NavLink
           to="/EditProfile"
           className="flex items-center gap-4 px-4 py-2 bg-Background-Neutral-Lightest rounded-lg"

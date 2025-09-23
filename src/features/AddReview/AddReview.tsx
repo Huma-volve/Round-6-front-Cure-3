@@ -1,29 +1,42 @@
 import Header from "@/lib/Header/Header"
 import { FaStar } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { addReview } from "@/api/addreview/Addreview"
+import Toast from "./Toast"
 
 const AddReview = () => {
   const navigate = useNavigate()
   const [rating, setRating] = useState<number>(0)
   const [hover, setHover] = useState<number>(0)
   const [review, setReview] = useState<string>("")
+  const [error, setError] = useState<string | null>(null)
+  const [showToast, setShowToast] = useState(false)
+  const { id } = useParams()
 
   const handleRating = (value: number) => {
     setRating(value)
   }
 
-  function handleSubmit() {
-    addReview({ rating, review })
+  async function handleSubmit() {
+    setError(null)
+    const res = await addReview(id!, { rating, comment: review })
+    if (res.success) {
+      setShowToast(true)
+      // setTimeout(() => {
+      //   navigate(`/doctorDetails/${id}`)
+      // }, 1500)
+    } else {
+      setError(res.error)
+    }
   }
 
   return (
     <>
       <Header
         title="Add Review"
-        onBack={() => navigate("/doctorDetails/:id")}
+        onBack={() => navigate(`/doctorDetails/${id}`)}
       />
 
       <main className="mt-7 w-[90%] mx-auto max-w-2xl">
@@ -56,6 +69,11 @@ const AddReview = () => {
           onChange={(e) => setReview(e.target.value)}
           className="w-full h-32 p-2 border-2 border-Background-Neutral-Darker rounded-lg focus:outline-none focus:ring-2 focus:ring-Background-Primary-Defult resize-none text-base md:text-lg"
         />
+        {error && (
+          <div className="mt-2 text-black bg-Text-Semantic-Error-Defult px-3 py-2 rounded">
+            {error}
+          </div>
+        )}
 
         <Button
           onClick={handleSubmit}
@@ -63,6 +81,12 @@ const AddReview = () => {
         >
           Submit Review
         </Button>
+
+        {showToast && (
+          <div>
+            <Toast />
+          </div>
+        )}
       </main>
     </>
   )

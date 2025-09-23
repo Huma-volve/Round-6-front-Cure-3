@@ -1,7 +1,7 @@
 import type { ReviewResponse } from "../../types/Review/Review";
 import api from "../api";
 
-export async function getReview(): Promise<ReviewResponse> {
+export async function getReview(id: string | undefined): Promise<ReviewResponse> {
   try {
     const res = await api.get("/doctors/1/reviews");
     return res.data.data as ReviewResponse;

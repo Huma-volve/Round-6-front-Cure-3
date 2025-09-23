@@ -3,8 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SectionTopDoctors = () => {
+  const navigate = useNavigate();
   const [doctors, setDoctors] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -12,12 +14,12 @@ const SectionTopDoctors = () => {
     const fetchDoctors = async () => {
       setLoading(true);
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
+          "https://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
           {
             headers: {
-              Authorization:
-                "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
@@ -48,7 +50,11 @@ const SectionTopDoctors = () => {
             their expertise, care, and service. Book with confidence today.
           </p>
         </div>
-        <Button variant="outline" className="px-8">
+        <Button
+          variant="outline"
+          className="px-8"
+          onClick={() => navigate("/search")}
+        >
           View All
         </Button>
       </div>

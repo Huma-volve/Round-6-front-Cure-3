@@ -12,13 +12,13 @@ export function useConfirmAppointment(doctorId: number | null) {
 
   const { data: slotsData, isLoading: isSlotsLoading } = useQuery({
     queryKey: ["doctorSlots", doctorId],
-    queryFn: () => getSlots(),
+    queryFn: () => getSlots(doctorId!),
     enabled: !!doctorId,
   });
 
   const { data: doctorData } = useQuery({
     queryKey: ["doctorDetails", doctorId],
-    queryFn: () => getDoctorDetails(),
+    queryFn: () => getDoctorDetails(doctorId!),
     enabled: !!doctorId,
   });
 

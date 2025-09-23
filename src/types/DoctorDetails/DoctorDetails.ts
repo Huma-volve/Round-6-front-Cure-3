@@ -1,25 +1,27 @@
 export type DoctorDetails = {
-    id: string;
-    experience_years: number;
-    address: string;
-    email: string;
-    day: string;
-    name: string;
-    phone: string;
-    price_per_hour: number;
-    hospital_name: string;
-    specialty_description: string;
-    specialty_name_en: string;
-    specialty_name_ar: string,
-    average_rating: number,
-    reviews_count: number,
-    start_time: string,
-    end_time: string,
-    doctor_profile_id :number
-  };
-  
-  export type DoctorDetailsResponse = {
-    current_page: number;
-    data: DoctorDetails;
-  };
-  
+  user_id: number;
+  name: string;
+  email: string;
+  phone: string;
+  about: string;
+  experience_years: number;
+  price_per_hour: string;
+  specialty_id: number;
+  specialty_name_en: string;
+  specialty_name_ar: string;
+  specialty_description: string;
+  hospital_id: number;
+  hospital_name: string;
+  hospital_city: string;
+  hospital_start_time: string;
+  hospital_end_time: string;
+  average_rating: string;
+  reviews_count: number;
+  availability: string[];
+};
+
+export type DoctorDetailsResponse = {
+  success: boolean;
+  message: string;
+  data: DoctorDetails; 
+};

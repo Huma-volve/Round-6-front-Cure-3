@@ -22,6 +22,7 @@ const SearchByYourLocationDoctors = () => {
       }
     }) 
     .then(res => {
+      console.log(res);
     setDoctor(res.data.data);})
     .catch(err => console.log(err))
     .finally(() => setLoading(false));

@@ -26,7 +26,7 @@ const PaymentMethod = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto min-h-screen">
       <ArrowLeft title={"Payment Method"} />
 
       <div className="py-6 px-4">

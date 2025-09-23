@@ -5,14 +5,11 @@ import person2 from "@/assets/images/person (2).jpg";
 import person3 from "@/assets/images/person (3).jpg";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/Mohamed/useAuth";
 
 const SectionHero = () => {
-  const isLogedIn = false;
   const navigate = useNavigate();
-
-  function startHandler() {
-    navigate("/signup");
-  }
+  const { isLogin } = useAuth();
 
   function bookHandler() {
     navigate("/search");
@@ -53,13 +50,13 @@ const SectionHero = () => {
         10k+ happy patients
       </Tag>
       <div className="items-center flex gap-4 sm:gap-8 flex-col sm:flex-row">
-        {isLogedIn ? (
-          ""
-        ) : (
-          <Button onClick={startHandler} className="px-14">
-            Get started
-          </Button>
-        )}
+        {!isLogin ? (
+          <div>
+            <Button onClick={() => navigate("/signup")} className="px-14">
+              Get started
+            </Button>
+          </div>
+        ) : null}
         <Button
           variant="outline"
           onClick={bookHandler}
