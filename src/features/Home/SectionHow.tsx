@@ -1,6 +1,6 @@
 import blueStars from "@/assets/icons/blueStars.svg";
 import searchBlack from "@/assets/icons/searchBlack.svg";
-import month from "@/assets/images/Month.svg";
+import month from "@/assets/images/month.svg";
 import calender from "@/assets/images/calender.svg";
 import how from "@/assets/images/how.svg";
 
