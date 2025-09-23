@@ -1,5 +1,5 @@
 import axios from "axios";
-const TOKEN = localStorage.getItem("token");
+const TOKEN = localStorage.getItem("token") || "";
 export const api = axios.create({
     baseURL: "https://round5-online-booking-with-doctor-api.huma-volve.com/api",
     headers: {

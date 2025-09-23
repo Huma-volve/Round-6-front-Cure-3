@@ -9,7 +9,7 @@ const Layout = () => {
       <div className="m-auto w-full max-w-[1240px] px-4">
         <Outlet />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };
