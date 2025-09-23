@@ -1,4 +1,4 @@
-import type { NotificationsResponse } from "../../types/Notifications/Notifications";
+import type { NotificationsResponse } from "../../types/NotificationsTypes/Notifications";
 import api from "../api";
 
 export async function getNotifications(): Promise<NotificationsResponse> {
