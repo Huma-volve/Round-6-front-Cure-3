@@ -5,11 +5,8 @@ import clock from "@/assets/icons/Clock.svg";
 import { useNavigate } from "react-router-dom";
 import type { Doctor } from "@/types/Doctor";
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
 const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
   const navigate = useNavigate();
 
@@ -28,23 +25,18 @@ const DoctorCard = ({ doctor }: { doctor: Doctor }) => {
         <div className="flex gap-2 flex-col">
           <p className="text-base">{doctor.name}</p>
           <p className="text-Text-Neutral-Darker">
-            {doctor?.specialty_name_en} | {doctor?.hospital_name}
+                     {doctor?.specialty_name_en} | {doctor?.hospital_name}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
             <div className="flex items-center">
               <img src={star} alt="a star" className="mr-1" />{" "}
-              <p className="mr-4">{doctor?.average_rating.slice(0, 3)}</p>
+               <p className="mr-4">{doctor?.average_rating.slice(0, 3)}</p>
             </div>
             <div className="flex items-center">
               <img className="mr-2" src={clock} alt="a clock" />{" "}
               <p>
-<<<<<<< HEAD
-                 {doctor.start_time.slice(0,5)}am - {doctor.end_time.slice(0,5)}pm
-=======
-                {doctor.availability[0].start_time.slice(0, 5)}am -{" "}
-                {doctor.availability[0].end_time.slice(0, 5)}pm
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
+                 {doctor.availability[0].start_time.slice(0,5)}am - {doctor.availability[0].end_time.slice(0,5)}pm
               </p>
             </div>
           </div>

@@ -9,47 +9,6 @@ import type { NotificationsResponse, Notification } from "../../types/Notificati
 const Notification = () => {
   const navigator = useNavigate();
 
-<<<<<<< HEAD
-  const { data, isLoading, error } = useQuery<NotificationsResponse>({
-    queryKey: ["notifications"],
-    queryFn: () => getNotifications(),
-  });
-  
-  if (isLoading) return <Loading />;
-  if (error) return <h1>Error...</h1>;  
-  
-  const notifications = data?.data?.data ?? [];
-  console.log("notifications", notifications);
-  
-  return (
-    <>
-      <Header title="Notifications" showBack onBack={() => navigator("/")} />
-      <h2 className="mt-10 text-Background-Primary-Defult">Today</h2>
-      <main className="mt-2">
-        <div className="flex flex-col gap-2">
-          {notifications.length === 0 ? (
-            <Empty />
-          ) : (
-            notifications.map((notification: Notification) => (
-              <div key={notification.id} className="flex gap-3 items-start p-3 rounded-lg border border-Background-Neutral-Darker">
-                <p className="bg-Background-Neutral-Darker rounded-full p-2">
-                  {notification.icon}
-                </p>
-                <div className="flex flex-col gap-1">
-                  <p className="font-semibold">{notification.title}</p>
-                  <p className="text-sm text-Background-Neutral-Lighter">
-                    {notification.message}
-                  </p>
-                  <p className="text-xs text-Background-Neutral-Lighter">
-                    {notification.created_at}
-                  </p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </main>
-=======
   const { data, isLoading, error } = useQuery({
     queryKey: ["notifications"],
     queryFn: () => getNotifications(),
@@ -70,11 +29,11 @@ const Notification = () => {
         <h2 className="mt-10 text-Background-Primary-Defult">Today</h2>
         <main className="mt-2">
           <div className="flex flex-col gap-2">
-            {data?.data?.length === 0 ? (
+            {data?.data?.data.length === 0 ? (
               <Empty />
             ) : (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              data?.data?.map((notification: any) => {
+              data?.data?.data.map((notification: Notification) => {
                 return (
                   <div key={notification.id}>
                     <p className="bg-Background-Neutral-Darker rounded-full">
@@ -92,7 +51,6 @@ const Notification = () => {
           </div>
         </main>
       </div>
->>>>>>> origin/test
     </>
   );
 };

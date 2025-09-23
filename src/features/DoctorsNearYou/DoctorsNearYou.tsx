@@ -1,7 +1,7 @@
 import DoctorCard from "@/components/DoctorCard/DoctorCard";
+import type { Availability } from "@/types/Doctor";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 
 
 
@@ -14,9 +14,13 @@ export interface Doctor {
   end_time:string;
   average_rating: string;
   price_per_hour : string;
+  availability : Availability[];
   
 }
 
+ export interface DoctorCardProps {
+  doctor: Doctor;
+}
 
 const DoctorsNearYou = () => {
   const [doctors , setDoctors] = useState<Doctor[]>([]);
@@ -81,7 +85,8 @@ const DoctorsNearYou = () => {
           <DoctorCard
           
           key={doc.doctor_profile_id} 
-          doctor={doc} />
+          doctor={doc} 
+          />
         ))}
         </div>
        </div>

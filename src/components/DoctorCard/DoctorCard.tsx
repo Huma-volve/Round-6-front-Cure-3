@@ -2,34 +2,23 @@ import { useState } from "react";
 import { Clock4, Heart, Star } from "lucide-react";
 import doctorImage from "../../assets/images/84c1b0d51403f4f1d7e9bd56b7c704bb2bf992e9 (1).jpg";
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
+
+
 export interface Availability {
   availability_id: number;
   day: string;
   start_time: string;
-<<<<<<< HEAD
-  end_time: string;   
-=======
-  end_time: string;
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
+  end_time : string;
 }
 interface Doctor {
   doctor_profile_id: number;
   name: string;
   specialty_name_en: string;
-  hospital_name: string;
-<<<<<<< HEAD
-  average_rating : string;
+  hospital_name: string;  average_rating : string;
   availability: Availability[];
  
-=======
-  average_rating: string;
-  availability: Availability[];
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
 }
 interface DoctorCardProps {
   doctor: Doctor;
@@ -74,26 +63,6 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
                   </span>
                 </div>
 
-<<<<<<< HEAD
-                 <h3 className="font-medium">{doctor.name}</h3>
-                 <p className="text-Text-Neutral-Darker">{doctor.specialty_name_en} | {doctor.hospital_name}</p>
-                 <div className="flex items-center font-medium gap-8">
-                    <div className="flex items-center">
-                        <Star className="w-5 h-5 text-yellow-300 fill-yellow-300"/>
-                        <span className="ml-1">{Number(doctor.average_rating).toFixed(1)}</span>
-                    </div>
-            
-                    <div className="flex items-center ml-4 font-medium">
-                        <Clock4 className="text-gray-400 text-sm min-w-[20px] min-h-[20px] mr-1 " />
-                        <p>  {doctor.availability[0].start_time.slice(0,5)}am - {doctor.availability[0].end_time.slice(0,5)}pm </p>
-                    </div>
-                 </div>
-                    </div>
-                     <div className="ml-16 pl-4 pr-2">
-                     <button onClick={() => toggleFavorite(doctor.doctor_profile_id )} 
-                     ><Heart  className={favorites.includes(doctor.doctor_profile_id)? "text-red-400 fill-red-400 cursor-pointer" : "text-red-400"} /></button>
-                    </div>
-=======
                 <div className="flex items-center ml-4 font-medium">
                   <Clock4 className="text-gray-400 text-sm min-w-[20px] min-h-[20px] mr-1 " />
                   <p>
@@ -101,7 +70,6 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
                     {doctor.availability[0].start_time.slice(0, 5)}am -{" "}
                     {doctor.availability[0].end_time.slice(0, 5)}pm
                   </p>
->>>>>>> 8e4bce81cf27d2bc90a7735f323cae851cf3ccfa
                 </div>
               </div>
             </div>
@@ -117,8 +85,8 @@ export default function DoctorCard({ doctor }: DoctorCardProps) {
               </button>
             </div>
           </div>
-        </div>
-      </div>
+            </div>
+    </div>
     </>
   );
 }
