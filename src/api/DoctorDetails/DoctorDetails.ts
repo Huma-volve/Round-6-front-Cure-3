@@ -1,12 +1,16 @@
 import type { DoctorDetailsResponse } from "../../types/DoctorDetails/DoctorDetails";
 import api from "../api";
 
-export async function getDoctorDetails(): Promise<DoctorDetailsResponse> {
+export async function getDoctorDetails(id: number): Promise<DoctorDetailsResponse> {
   try {
-    const res = await api.get("/doctors/1");
-    return res.data as DoctorDetailsResponse;
+    const { data } = await api.get<DoctorDetailsResponse>(`/doctors/${id}`);
+    return data;
   } catch (err) {
     console.error("Error fetching doctor details:", err);
-    return { current_page: 1, data: [] as DoctorDetailsResponse[]};
+    return {
+      success: false,
+      message: "Failed to fetch doctor details",
+      data: {} as any
+    };
   }
 }

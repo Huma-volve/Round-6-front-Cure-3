@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface ReviewResponse {
     current_page: number;
     data: ReviewData[];
@@ -13,4 +15,6 @@ export interface ReviewData {
     comment: string;
     created_at: string;
     updated_at: string;
+    error : string | null;
+    success: boolean;
 }
