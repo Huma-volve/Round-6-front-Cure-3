@@ -17,9 +17,15 @@ const SectionMap = () => {
           trusted doctors and clinics around you—quick, easy, and local.
         </p>
         <Button
+<<<<<<< HEAD
           variant="outline"
           className="flex gap-2"
           onClick={() => navigate("/doctorsNearYou")}
+=======
+          onClick={() => navigate("/searchByLocation")}
+          variant="outline"
+          className="flex gap-2"
+>>>>>>> origin/test
         >
           <svg
             width="20"

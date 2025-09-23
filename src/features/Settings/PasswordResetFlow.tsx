@@ -86,7 +86,7 @@ const PasswordResetFlow = () => {
         password_confirmation: confirmPassword,
       });
       toast.success("Password changed successfully!");
-      navigate("/login");
+      navigate("/signinEmail");
     } catch (err: unknown) {
       const message =
         err instanceof Error ? err.message : "Password reset failed";

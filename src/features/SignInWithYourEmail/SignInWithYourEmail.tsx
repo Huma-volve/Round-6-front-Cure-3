@@ -7,6 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import signup from "../../assets/images/Sign up.png";
 import { toast } from "react-hot-toast";
 import { FaFacebook, FaGoogle, FaApple } from "react-icons/fa";
+import { useAuth } from "@/context/Mohamed/useAuth";
 
 interface SignInValues {
   email: string;
@@ -20,6 +21,7 @@ const SignInSchema = Yup.object().shape({
 
 const SignInWithEmail: React.FC = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const initialValues: SignInValues = { email: "", password: "" };
@@ -39,6 +41,7 @@ const SignInWithEmail: React.FC = () => {
 
       if (data.success) {
         if (data.data?.token) {
+          login(data?.data?.token);
           localStorage.setItem("token", data.data.token);
         }
         toast.success(data.message || "Done");

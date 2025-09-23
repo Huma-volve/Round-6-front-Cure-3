@@ -25,12 +25,10 @@ const Booking = () => {
   >("all");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const uniqueDates = Array.from(
-    new Set(appointments.map((appt) => appt.date))
-  );
 
   // fetch api
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const url =
       filter === "all"
         ? "http://round5-online-booking-with-doctor-api.huma-volve.com/api/my-bookings"
@@ -39,8 +37,7 @@ const Booking = () => {
     axios
       .get(url, {
         headers: {
-          Authorization:
-            "Bearer 3|7gKZsNspIPXDG7HdG0ndcxN6gMLZQdh4lTt7sn9h96a5e0e3",
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -52,31 +49,6 @@ const Booking = () => {
       });
   }, [filter]);
 
-  function formatAppointment(dateStr: string, timeStr: string) {
-    const [year, month, day] = dateStr.split("-").map(Number); // 2025-10-10 => [2025,10,10]
-    const [hour, minute] = timeStr.split(":").map(Number); // 12:00:00 => [12,0,0]
-
-    const date = new Date(year, month - 1, day, hour, minute);
-
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "short",
-      day: "numeric",
-      month: "long",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-
-    return date.toLocaleString("en-US", options);
-  }
-
-  const now = new Date();
-  const appointmentsWithStatus = appointments.map((appt) => {
-    const apptDateTime = new Date(`${appt.date}T${appt.time}`);
-    const status: "upcoming" | "past" =
-      apptDateTime > now ? "upcoming" : "past";
-    return { ...appt, status };
-  });
   const filteredAppointments = appointments.filter((appt: Appointment) => {
     const dateMatch = selectedDate ? appt.date === selectedDate : true;
     return dateMatch;

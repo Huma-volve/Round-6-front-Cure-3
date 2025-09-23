@@ -16,13 +16,12 @@ import Pay from "./features/Pay/Pay";
 import PaymentMethod from "./features/PaymentMethod/PaymentMethod";
 import Profile from "./features/Profile/Profile";
 import Search from "./features/Search/Search";
-// import SearchByLocation from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
 import Settings from "./features/Settings/Settings";
 import SignInWithEmail from "./features/SignInWithYourEmail/SignInWithYourEmail";
 import SignUp from "./features/SignUp/SignUp";
 import Specialties from "./features/Speciaties/Speciaties";
 import TheMap from "./features/TheMap/TheMap";
-// import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
+import ProtectedRoute from "./features/ProtectedRoute/ProtectedRoute";
 import Layout from "./Layout/Layout/Layout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import NotFound from "./Layout/Common/NotFound";
@@ -31,13 +30,13 @@ import ForgotPassword from "./features/SignInWithYourEmail/ForgotPassword";
 import VerifyOtp from "./features/SignInWithYourEmail/VerifyOtp";
 import ResetPassword from "./features/SignInWithYourEmail/ResetPassword";
 import { EditProfile } from "./features/EditProfile/EditProfile";
-// import PasswordManagement from "./features/Settings/PasswordManagement";
 import UserContextProvider from "./context/Mohamed/UserContext";
 import { Toaster } from "react-hot-toast";
 import AddNewCard from "./features/AddNewCard/AddNewCard";
 import PasswordResetFlow from "./features/Settings/PasswordResetFlow";
 import SearchMap from "./features/TheMap/SearchMap";
 import SearchByYourLocationDoctors from "./features/SearchByYourLocationDoctors/SearchByYourLocationDoctors";
+import AuthContextProvider from "./context/Mohamed/AuthContext";
 
 const router = createBrowserRouter([
   {
@@ -51,11 +50,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    // element: (
-    //   <ProtectedRoute>
-    //     <Layout />
-    //   </ProtectedRoute>
-    // ),
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "/privacyPolicy", element: <PrivacyPolicy /> },
       { path: "/my-bookings", element: <Booking /> },
@@ -81,8 +80,7 @@ const router = createBrowserRouter([
       { path: "/addNewCard", element: <AddNewCard /> },
       { path: "/editProfile", element: <EditProfile /> },
       { path: "/passwordResetFlow", element: <PasswordResetFlow /> },
-      {path: "/map/search" , element: <SearchMap/>},
-      // { path: "/visa", element: <VisaVersion /> },
+      { path: "/map/search", element: <SearchMap /> },
     ],
   },
   { path: "/signinEmail", element: <SignInWithEmail /> },
@@ -98,11 +96,12 @@ const clint = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={clint}>
-      <UserContextProvider>
-        <RouterProvider router={router} />
-        <Toaster />
-      </UserContextProvider>
-      <Toaster position="top-right" />
+      <AuthContextProvider>
+        <UserContextProvider>
+          <RouterProvider router={router} />
+          <Toaster />
+        </UserContextProvider>
+      </AuthContextProvider>
     </QueryClientProvider>
   );
 }

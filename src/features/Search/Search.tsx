@@ -116,10 +116,9 @@ const Search = () => {
   const navigate = useNavigate();
   const [specialities, setSpecialities] = useState<Speciality[]>([]);
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  // const [filteredDoctors, setFilteredDoctors] = useState(doctors);
 
-  const [loadingSpecialities, setLoadingSpecialities] = useState(true);
-  const [loadingDoctors, setLoadingDoctors] = useState(true);
+  const [loadingSpecialities, setLoadingSpecialities] = useState(false);
+  const [loadingDoctors, setLoadingDoctors] = useState(false);
 
   useEffect(() => {
     const TOKEN = localStorage.getItem("token") || "";
@@ -138,16 +137,20 @@ const Search = () => {
         );
         if (!res.ok) throw new Error(`Specialities error: ${res.status}`);
         const data = await res.json();
+        console.log(data);
+
         setSpecialities(data.data);
-        setLoadingSpecialities(false);
       } catch (err) {
-        setLoadingSpecialities(true);
+        console.log(err);
         navigate("/signup");
+      } finally {
+        setLoadingSpecialities(false);
       }
     };
 
     const fetchDoctors = async () => {
       try {
+        setLoadingDoctors(true);
         const res = await fetch(
           "http://round5-online-booking-with-doctor-api.huma-volve.com/api/doctors",
           {
@@ -159,10 +162,12 @@ const Search = () => {
         );
         if (!res.ok) throw new Error(`Doctors error: ${res.status}`);
         const data = await res.json();
+        console.log(data);
         setDoctors(data.data);
-        setLoadingDoctors(false);
       } catch (err) {
-        setLoadingDoctors(true);
+        console.log(err);
+      } finally {
+        setLoadingDoctors(false);
       }
     };
 
@@ -565,9 +570,19 @@ const Search = () => {
             </div>
           </div>
           <div className="flex-wrap flex mb-16 gap-6 max-w-full pl-1">
-            {filteredDoctors.length ? (
+            {loadingDoctors ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className="bg-gray-200 h-40 w-60 animate-pulse rounded-lg"
+                />
+              ))
+            ) : filteredDoctors.length ? (
               filteredDoctors.map((doctor) => (
-                <DoctorCard key={doctor.doctor_profile_id} doctor={doctor} />
+                <DoctorCard
+                  key={doctor.availability[0].availability_id}
+                  doctor={doctor}
+                />
               ))
             ) : (
               <p className="text-lg text-Text-Neutral-Darker p-4">

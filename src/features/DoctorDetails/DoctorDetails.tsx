@@ -23,7 +23,9 @@ const RatingStars = ({ rating }: { rating: number }) => {
         <FaStar
           key={i}
           size={22}
-          className={i < Math.round(rating) ? "text-yellow-400" : "text-gray-300"}
+          className={
+            i < Math.round(rating) ? "text-yellow-400" : "text-gray-300"
+          }
         />
       ))}
     </div>
@@ -171,7 +173,9 @@ const DoctorDetails = () => {
               </div>
               <div className="flex items-center gap-1">
                 <RatingStars rating={review.rating} />
-                <span className="font-bold text-yellow-400">{review.rating}</span>
+                <span className="font-bold text-yellow-400">
+                  {review.rating}
+                </span>
               </div>
             </div>
             <p className="mt-4 text-Text-Neutral-Darker leading-relaxed">
