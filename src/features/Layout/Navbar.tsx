@@ -1,6 +1,7 @@
-import { Calendar, Home, Mail, Bookmark, Settings, User, Users, Search, Bell, MessageCircle, Menu, X } from "lucide-react"
+import { Calendar, Home, Gamepad2, Bookmark, Settings, User, Users, Search, Bot, MessageCircle, Menu, X } from "lucide-react"
 import { useState } from "react"
 import Logo from "@/assets/icons/LogoPharo.png"
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState('home')
@@ -8,10 +9,11 @@ const Navbar = () => {
 
     const navItems = [
         { id: 'home', label: 'Home', icon: <Home className="w-5 h-5" /> },
-        { id: 'network', label: 'Network', icon: <Users className="w-5 h-5" /> },
-        { id: 'messages', label: 'Messages', icon: <Mail className="w-5 h-5" /> },
-        { id: 'notifications', label: 'Notifications', icon: <Bell className="w-5 h-5" /> },
+        { id: 'friends', label: 'Friends', icon: <Users className="w-5 h-5" /> },
+        { id: 'games', label: 'Games', icon: <Gamepad2 className="w-5 h-5" /> },
+        { id: 'page-events', label: 'Page events', icon: <Calendar className="w-5 h-5" /> },
         { id: 'profile', label: 'Profile', icon: <User className="w-5 h-5" /> },
+        { id: 'Chatbot', label: 'Chatbot', icon: <Bot className="w-5 h-5" /> },
     ]
 
     const quickLinks = [
@@ -53,27 +55,25 @@ const Navbar = () => {
                         {/* Desktop Navigation */}
                         <nav className="hidden md:flex items-center space-x-1">
                             {navItems.map((item) => (
+                                <Link to={item.id}>
                                 <button
                                     key={item.id}
                                     onClick={() => setActiveNav(item.id)}
                                     className={`flex items-center space-x-2 px-4 py-2 rounded-full transition-all duration-200 ${
                                         activeNav === item.id 
-                                            ? 'bg-electric-500 text-white shadow-lg shadow-electric-500/25' 
-                                            : 'text-gray-300 hover:bg-dark-3 hover:text-white'
+                                        ? 'bg-electric-500 text-white shadow-lg shadow-electric-500/25' 
+                                        : 'text-gray-300 hover:bg-dark-3 hover:text-white'
                                     }`}
                                 >
                                     {item.icon}
                                     <span className="text-sm font-medium brand-name">{item.label}</span>
                                 </button>
+                                    </Link>
                             ))}
                         </nav>
 
                         {/* Notification & Messages - Desktop */}
                         <div className="hidden md:flex items-center space-x-2">
-                            <button className="relative p-2 text-gray-300 hover:text-white hover:bg-dark-3 rounded-lg transition-all duration-200">
-                                <Bell className="w-5 h-5" />
-                                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-dark-2"></span>
-                            </button>
                             <button className="relative p-2 text-gray-300 hover:text-white hover:bg-dark-3 rounded-lg transition-all duration-200">
                                 <MessageCircle className="w-5 h-5" />
                                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-dark-2"></span>
